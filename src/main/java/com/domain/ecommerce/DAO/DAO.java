@@ -8,11 +8,11 @@ public interface DAO<T,ID> {
 
     List<T> list();
 
-    T get(T entity);
+    T get(T entity, ID id);
 
     void create(T entity);
 
-    void update(T entity);
+    void update(T entity, ID id,String columnName);
 
     void delete(ID id);
 

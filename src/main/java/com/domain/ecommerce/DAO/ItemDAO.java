@@ -10,6 +10,7 @@ import java.util.List;
 @Component
 public class ItemDAO implements DAO<Items,Long>{
     private JdbcTemplate jdbcTemplate;
+    //maps table columns to object fields.
     private RowMapper<Items> rowMapper = (rs,rowNumber) -> {
         Items items = new Items();
         items.setItemID(rs.getLong("item_id"));
@@ -34,7 +35,7 @@ public class ItemDAO implements DAO<Items,Long>{
     }
 
     @Override
-    public Items get(Items entity) {
+    public Items get(Items entity, Long id) {
         return null;
     }
 
@@ -52,12 +53,16 @@ public class ItemDAO implements DAO<Items,Long>{
     }
 
     @Override
-    public void update(Items entity) {
+    public void update(Items entity, Long id,String name) {
 
+        String sqlQuery = "update items set" + name + "= ? where item_id = ?";
+        jdbcTemplate.update(sqlQuery,entity.getItemName(),id);
     }
 
     @Override
     public void delete(Long id) {
-
+        String sqlQuery = "DELETE FROM items WHERE item_id = ?";
+       int num = jdbcTemplate.update(sqlQuery,id);
+        System.out.println(num);
     }
 }
