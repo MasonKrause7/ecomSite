@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Items {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long itemID;
+    private Long itemId;
     private String itemName;
     private String itemDescription;
     private String imageUrl;
@@ -31,20 +31,20 @@ public class Items {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Items items = (Items) o;
-        return Double.compare(items.price, price) == 0 && quantity == items.quantity && itemID.equals(items.itemID) && itemName.equals(items.itemName) && itemDescription.equals(items.itemDescription) && imageUrl.equals(items.imageUrl);
+        return Double.compare(items.price, price) == 0 && quantity == items.quantity && itemId.equals(items.itemId) && itemName.equals(items.itemName) && itemDescription.equals(items.itemDescription) && imageUrl.equals(items.imageUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemID, itemName, itemDescription, imageUrl, price, quantity);
+        return Objects.hash(itemId, itemName, itemDescription, imageUrl, price, quantity);
     }
 
     public Long getItemID() {
-        return itemID;
+        return itemId;
     }
 
     public void setItemID(Long itemID) {
-        this.itemID = itemID;
+        this.itemId = itemID;
     }
 
     public String getItemName() {

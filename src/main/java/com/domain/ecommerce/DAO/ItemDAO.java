@@ -3,12 +3,23 @@ package com.domain.ecommerce.DAO;
 import com.domain.ecommerce.models.Items;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 @Component
 public class ItemDAO implements DAO<Items,Long>{
     private JdbcTemplate jdbcTemplate;
+    private RowMapper<Items> rowMapper = (rs,rowNumber) -> {
+        Items items = new Items();
+        items.setItemID(rs.getLong("item_id"));
+        items.setItemName(rs.getString("item_name"));
+        items.setItemDescription(rs.getString("item_description"));
+        items.setImageUrl(rs.getString("image_url"));
+        items.setPrice(rs.getDouble("price"));
+        items.setQuantity(rs.getInt("quantity"));
+        return items;
+    };
     public ItemDAO() {}
     @Autowired
     public ItemDAO(JdbcTemplate jdbcTemplate) {
@@ -18,7 +29,8 @@ public class ItemDAO implements DAO<Items,Long>{
 
     @Override
     public List<Items> list() {
-        return null;
+        String sqlQuery = "SELECT * FROM items";
+        return jdbcTemplate.query(sqlQuery,rowMapper);
     }
 
     @Override
