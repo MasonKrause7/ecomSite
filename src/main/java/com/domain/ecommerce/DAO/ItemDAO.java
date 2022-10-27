@@ -1,6 +1,7 @@
 package com.domain.ecommerce.DAO;
 
 import com.domain.ecommerce.models.Items;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -35,8 +36,12 @@ public class ItemDAO implements DAO<Items,Long>{
     }
 
     @Override
-    public Items get(Items entity, Long id) {
-        return null;
+    public Items get(Long id) {
+        String sqlQuery = "SELECT * FROM items WHERE item_id = ?";
+        Items item = jdbcTemplate.queryForObject(sqlQuery,rowMapper,id);
+
+        return item;
+
     }
 
     @Override

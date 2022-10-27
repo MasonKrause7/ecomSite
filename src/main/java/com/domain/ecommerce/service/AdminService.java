@@ -21,4 +21,16 @@ public class AdminService {
     public List<Items> getAllItems() {
         return itemDAO.list();
     }
+    //get a single item from the database; add validation as needed
+    public Items getItem(Long id) {
+        return itemDAO.get(id);
+    }
+
+    public void createItem(Items item) {
+        itemDAO.create(item);
+    }
+
+    public void deleteItem(Long id) {
+        itemDAO.delete(id);
+    }
 }

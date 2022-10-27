@@ -22,14 +22,14 @@ public class EcommerceApplication  implements CommandLineRunner {
         //create dummy items and add them to database
        Items item1 = new Items("gameboy","green gameboy","urltoimage",15.99,3);
         itemDAO.create(item1);
-        Items item2 = new Items("tv","20\" ","urltoimage",200.99,1);
+        Items item2 = new Items("tv","20","urltoimage",200.99,1);
         itemDAO.create(item2);
-        Items item3 = new Items("hp laptop","15\" hp laptop","urltoimage",400,8);
+        Items item3 = new Items("hp laptop","15 hp laptop","urltoimage",400,8);
         itemDAO.create(item3);
         Items item4 = new Items("Ski mask","beddazzeld ski mask for your next robbery","urltoimage",35,2);
         itemDAO.create(item4);
 
-        //retrieve list of items and print namesto console
+        //retrieve list of items and print names to console
         List<Items> itemsList = itemDAO.list();
         for(Items item : itemsList) {
             System.out.println(item.getItemName());

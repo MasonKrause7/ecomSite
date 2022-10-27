@@ -8,7 +8,7 @@ public interface DAO<T,ID> {
 
     List<T> list();
 
-    T get(T entity, ID id);
+    T get( ID id);
 
     void create(T entity);
 

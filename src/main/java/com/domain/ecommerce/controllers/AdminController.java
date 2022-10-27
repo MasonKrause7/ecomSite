@@ -3,9 +3,9 @@ package com.domain.ecommerce.controllers;
 import com.domain.ecommerce.models.Items;
 import com.domain.ecommerce.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,10 +20,30 @@ public class AdminController {
         this.adminService = adminService;
     }
     //retrive list of all items in the database
-    @GetMapping
+    @GetMapping("/api/items")
+    @ResponseStatus(HttpStatus.OK)
     public List<Items> getItems() {
         return adminService.getAllItems();
     }
 
+
+    @GetMapping("/api/items/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Items getItem(@PathVariable Long id) {
+        System.out.println(id);
+        return adminService.getItem(id);
+    }
+
+    @PostMapping("/api/items")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createItem(@RequestBody Items item) {
+        adminService.createItem(item);
+    }
+
+    @DeleteMapping("api/items/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteItem(@PathVariable Long id) {
+        adminService.deleteItem(id);
+    }
 
 }
