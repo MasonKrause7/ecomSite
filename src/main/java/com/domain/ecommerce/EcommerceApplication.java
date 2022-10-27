@@ -31,9 +31,6 @@ public class EcommerceApplication  implements CommandLineRunner {
 
         //retrieve list of items and print names to console
         List<Items> itemsList = itemDAO.list();
-        for(Items item : itemsList) {
-            System.out.println(item.getItemName());
-        }
 
         itemDAO.delete(1L);
         item3.setItemName("nintendo Switch");

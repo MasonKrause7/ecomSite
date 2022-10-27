@@ -68,6 +68,6 @@ public class ItemDAO implements DAO<Items,Long>{
     public void delete(Long id) {
         String sqlQuery = "DELETE FROM items WHERE item_id = ?";
        int num = jdbcTemplate.update(sqlQuery,id);
-        System.out.println(num);
+
     }
 }
