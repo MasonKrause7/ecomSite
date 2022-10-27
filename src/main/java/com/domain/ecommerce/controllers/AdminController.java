@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/employees")
 public class AdminController {
     private final AdminService adminService;
 
@@ -19,27 +19,27 @@ public class AdminController {
         this.adminService = adminService;
     }
     //retrive list of all items in the database
-    @GetMapping("/api/items")
+    @GetMapping("/items")
     @ResponseStatus(HttpStatus.OK)
     public List<Items> getItems() {
         return adminService.getAllItems();
     }
 
 
-    @GetMapping("/api/items/{id}")
+    @GetMapping("/items/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Items getItem(@PathVariable Long id) {
         System.out.println(id);
         return adminService.getItem(id);
     }
 
-    @PostMapping("/api/items")
+    @PostMapping("/items")
     @ResponseStatus(HttpStatus.CREATED)
     public void createItem(@RequestBody Items item) {
         adminService.createItem(item);
     }
 
-    @DeleteMapping("api/items/{id}")
+    @DeleteMapping("/items/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void deleteItem(@PathVariable Long id) {
         adminService.deleteItem(id);
