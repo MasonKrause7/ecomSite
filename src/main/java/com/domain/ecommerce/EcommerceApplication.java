@@ -1,40 +1,45 @@
 package com.domain.ecommerce;
 
-import com.domain.ecommerce.DAO.ItemDAO;
-import com.domain.ecommerce.models.Items;
+import com.domain.ecommerce.DAO.ProductRepository;
+import com.domain.ecommerce.DAO.UserRepository;
+import com.domain.ecommerce.models.Address;
+import com.domain.ecommerce.models.Product;
+import com.domain.ecommerce.models.Roles;
+import com.domain.ecommerce.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 import java.util.List;
 
-@SpringBootApplication//CommandLineRunner interface to add dummy data when application is run
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)//CommandLineRunner interface to add dummy data when application is run
 public class EcommerceApplication  implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(EcommerceApplication.class, args);
     }
-       @Autowired
-    private ItemDAO itemDAO;
+    @Autowired
+    private ProductRepository itemDAO;
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public void run(String... args) throws Exception {
         //create dummy items and add them to database
-       Items item1 = new Items("gameboy","green gameboy","urltoimage",15.99,3);
-        itemDAO.create(item1);
-        Items item2 = new Items("tv","20","urltoimage",200.99,1);
-        itemDAO.create(item2);
-        Items item3 = new Items("hp laptop","15 hp laptop","urltoimage",400,8);
-        itemDAO.create(item3);
-        Items item4 = new Items("Ski mask","beddazzeld ski mask for your next robbery","urltoimage",35,2);
-        itemDAO.create(item4);
+       Product item1 = new Product("gameboy","green gameboy","urltoimage",15.99,3);
+        itemDAO.save(item1);
+        Product item2 = new Product("tv","20","urltoimage",200.99,1);
+        itemDAO.save(item2);
+        Product item3 = new Product("hp laptop","15 hp laptop","urltoimage",400,8);
+        itemDAO.save(item3);
+        Product item4 = new Product("Ski mask","beddazzeld ski mask for your next robbery","urltoimage",35,2);
+        itemDAO.save(item4);
+        Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
+        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com","password","8056022425", Roles.ADMIN,address);
 
-        //retrieve list of items and print names to console
-        List<Items> itemsList = itemDAO.list();
+        userRepository.save(user);
 
-        itemDAO.delete(1L);
-        item3.setItemName("nintendo Switch");
-        itemDAO.update(item3,3L," item_description");
 
     }
 }

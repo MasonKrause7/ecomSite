@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "items")
-public class Items {
+@Table(name = "Product")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
@@ -15,7 +15,7 @@ public class Items {
     private double price;
     private int quantity;
 
-    public Items(String itemName, String itemDescription, String imageUrl, double price, int quantity) {
+    public Product(String itemName, String itemDescription, String imageUrl, double price, int quantity) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.imageUrl = imageUrl;
@@ -23,14 +23,14 @@ public class Items {
         this.quantity = quantity;
     }
 
-    public Items() {
+    public Product() {
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Items items = (Items) o;
+        Product items = (Product) o;
         return Double.compare(items.price, price) == 0 && quantity == items.quantity && itemId.equals(items.itemId) && itemName.equals(items.itemName) && itemDescription.equals(items.itemDescription) && imageUrl.equals(items.imageUrl);
     }
 

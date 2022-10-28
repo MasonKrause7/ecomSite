@@ -1,36 +1,36 @@
 package com.domain.ecommerce.service;
 
-import com.domain.ecommerce.DAO.ItemDAO;
-import com.domain.ecommerce.models.Items;
+import com.domain.ecommerce.DAO.ProductRepository;
+import com.domain.ecommerce.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminService {
-    private final ItemDAO itemDAO;
+    private final ProductRepository itemDAO;
 
 
     @Autowired
-    public AdminService(ItemDAO itemDAO) {
+    public AdminService(ProductRepository itemDAO) {
         this.itemDAO = itemDAO;
     }
     //get all products from repository; add validation as needed
-    public List<Items> getAllItems() {
-        return itemDAO.list();
+    public List<Product> getAllItems() {
+        return itemDAO.findAll();
     }
     //get a single item from the database; add validation as needed
-    public Items getItem(Long id) {
-        return itemDAO.get(id);
+    public Optional<Product> getItem(Long id) {
+        return itemDAO.findById(id);
     }
 
-    public void createItem(Items item) {
-        itemDAO.create(item);
+    public void createItem(Product item) {
+        itemDAO.save(item);
     }
 
     public void deleteItem(Long id) {
-        itemDAO.delete(id);
+        itemDAO.deleteById(id);
     }
 }
