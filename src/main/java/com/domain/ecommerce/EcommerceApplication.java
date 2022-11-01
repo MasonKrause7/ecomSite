@@ -1,7 +1,7 @@
 package com.domain.ecommerce;
 
-import com.domain.ecommerce.DAO.ProductRepository;
-import com.domain.ecommerce.DAO.UserRepository;
+import com.domain.ecommerce.repository.ProductRepository;
+import com.domain.ecommerce.repository.UserRepository;
 import com.domain.ecommerce.models.Address;
 import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.models.Roles;
@@ -12,9 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-import java.util.List;
-
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)//CommandLineRunner interface to add dummy data when application is run
+@SpringBootApplication//CommandLineRunner interface to add dummy data when application is run
 public class EcommerceApplication  implements CommandLineRunner {
 
     public static void main(String[] args) {

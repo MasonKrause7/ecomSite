@@ -1,4 +1,4 @@
-package com.domain.ecommerce.DAO;
+package com.domain.ecommerce.repository;
 
 
 import com.domain.ecommerce.models.User;
@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
 
 
-   Optional<User> findAdminByUserName(String username);
+   User findByUserName(String userName);
+
 }
