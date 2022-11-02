@@ -28,22 +28,17 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+            name = "user_address",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id"))
+    private Set<Address> address = new HashSet<>();
     @Enumerated(EnumType.STRING)
     private Roles Role;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", Role=" + Role +
-                ", address=" + address +
-                '}';
-    }
+
+
 
     public User(String firstName, String lastName, String email, String password, String phoneNumber, Roles role, Address address) {
         this.firstName = firstName;
@@ -79,13 +74,8 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return email;
-    }
 
-    public void setUserName(String email) {
-        this.email= email;
-    }
+
 
     public String getPassword() {
         return password;
@@ -119,13 +109,17 @@ public class User {
         this.address = address;
     }
 
-    @ManyToMany(cascade=CascadeType.ALL)
-  @JoinTable(
-          name = "user_address",
-          joinColumns = @JoinColumn(name = "user_id"),
-          inverseJoinColumns = @JoinColumn(name = "address_id"))
-    private Set<Address> address = new HashSet<>();
-
-
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address=" + address +
+                ", Role=" + Role +
+                '}';
+    }
 }
