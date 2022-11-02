@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/users")
 public class AuthenticationController {
 
@@ -20,6 +21,13 @@ public AuthenticationController(UserRepository userRepository) {
 @PostMapping ("/signup")
 @CrossOrigin
 public ResponseEntity<String> signIn(/*@RequestBody User user*/) {
+
+
+    return ResponseEntity.ok("successful");
+}
+@GetMapping("/signup")
+@CrossOrigin
+public User getUserTest(){
     User user = new User();
     user.setFirstName("candelario");
     Address address = new Address();
@@ -28,8 +36,6 @@ public ResponseEntity<String> signIn(/*@RequestBody User user*/) {
     address.setPostalCode(12345);
     address.setState("TN");
     user.addAddress(address);
-    System.out.println(user);
-    return ResponseEntity.ok("successful");
-}
-
+    return user;
+    }
 }
