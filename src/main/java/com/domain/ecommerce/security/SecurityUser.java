@@ -1,5 +1,6 @@
-package com.domain.ecommerce.models;
+package com.domain.ecommerce.security;
 
+import com.domain.ecommerce.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,7 +10,7 @@ import java.util.*;
 
 public class SecurityUser implements UserDetails {
     private final User user;
-    @Autowired
+
     public SecurityUser (User user) {
         this.user = user;
     }
@@ -50,6 +51,6 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

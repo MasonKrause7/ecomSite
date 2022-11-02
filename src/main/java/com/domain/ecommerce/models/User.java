@@ -16,16 +16,39 @@ public class User {
     private Long user_id;
     private String firstName;
     private String lastName;
-    private String userName;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
     private String password;
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private Roles Role;
 
-    public User(String firstName, String lastName, String userName, String password, String phoneNumber, Roles role, Address address) {
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", Role=" + Role +
+                ", address=" + address +
+                '}';
+    }
+
+    public User(String firstName, String lastName, String email, String password, String phoneNumber, Roles role, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userName;
+        this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         Role = role;
@@ -57,11 +80,11 @@ public class User {
     }
 
     public String getUserName() {
-        return userName;
+        return email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String email) {
+        this.email= email;
     }
 
     public String getPassword() {
