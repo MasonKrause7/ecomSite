@@ -105,6 +105,10 @@ public class User {
         return address;
     }
 
+    public void addAddress(Address address) {
+        this.address.add(address);
+    }
+
     public void setAddress(Set<Address> address) {
         this.address = address;
     }
