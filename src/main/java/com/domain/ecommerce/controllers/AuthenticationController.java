@@ -16,10 +16,10 @@ private final UserRepository userRepository;
 public AuthenticationController(UserRepository userRepository) {
     this.userRepository = userRepository;
 }
-@GetMapping("/signup")
+@PostMapping ("/signup")
 @CrossOrigin
 public ResponseEntity<String> signIn(@RequestBody User user) {
-
+    System.out.println(user);
     return ResponseEntity.ok("successful");
 }
 
