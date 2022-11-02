@@ -20,10 +20,13 @@ public AuthenticationController(UserRepository userRepository) {
 }
 @PostMapping ("/signup")
 @CrossOrigin
-public ResponseEntity<String> signIn(/*@RequestBody User user*/) {
+public ResponseEntity<String> signIn(@RequestBody User user) {
+    if(user.getFirstName().length() > 0){
+        System.out.println("Successfully received user post!!");
+        System.out.println(user.getFirstName());
+    }
 
-
-    return ResponseEntity.ok("successful");
+    return ResponseEntity.ok("successfully Posted User!!");
 }
 @GetMapping("/signup")
 @CrossOrigin
