@@ -3,7 +3,9 @@ package com.domain.ecommerce.controllers;
 import com.domain.ecommerce.models.Address;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.repository.UserRepository;
+import com.domain.ecommerce.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
@@ -13,23 +15,30 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class AuthenticationController {
 
-private final UserRepository userRepository;
+private final AuthenticationService authenticationService;
+
 @Autowired
-public AuthenticationController(UserRepository userRepository) {
-    this.userRepository = userRepository;
+public AuthenticationController(AuthenticationService authenticationService) {
+    this.authenticationService = authenticationService;
 }
+
 @PostMapping ("/signup")
-@CrossOrigin
-public ResponseEntity<String> signIn(@RequestBody User user) {
-    if(user.getFirstName().length() > 0){
-        System.out.println("Successfully received user post!!");
-        System.out.println(user.getFirstName());
+@ResponseStatus(HttpStatus.CREATED)
+public void signIn(@RequestBody User user) throws Exception {
+    boolean exists = authenticationService.existingUser(user.getEmail());
+
+    if(exists) {
+
+        System.out.println("User already exists");
+    } else {
+        authenticationService.createUser(user);
+        System.out.println("user created");
     }
 
-    return ResponseEntity.ok("successfully Posted User!!");
+
+
 }
 @GetMapping("/signup")
-@CrossOrigin
 public User getUserTest(){
     User user = new User();
     user.setFirstName("candelario");

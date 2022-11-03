@@ -1,27 +1,20 @@
-package com.domain.ecommerce.security;
+package com.domain.ecommerce.models;
 
-import com.domain.ecommerce.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 public class SecurityUser implements UserDetails {
     private final User user;
 
-    public SecurityUser (User user) {
+    public SecurityUser(User user) {
         this.user = user;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole().toString());
-
-        return Collections.singletonList(simpleGrantedAuthority);
-
+        return List.of(()->"read");//change to Roles
     }
 
     @Override
