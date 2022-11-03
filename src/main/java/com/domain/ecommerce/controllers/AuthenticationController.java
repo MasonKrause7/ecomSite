@@ -23,20 +23,20 @@ public AuthenticationController(AuthenticationService authenticationService) {
 }
 
 @PostMapping ("/signup")
-@ResponseStatus(HttpStatus.CREATED)
+@ResponseStatus(value = HttpStatus.CREATED, reason = "User created")
 public void signIn(@RequestBody User user) throws Exception {
     boolean exists = authenticationService.existingUser(user.getEmail());
 
-    if(exists) {
+    if (exists) {
         throw new Exception("User already exists");
     } else {
         authenticationService.createUser(user);
         System.out.println("user created");
     }
 
-
-
 }
+
+
 @GetMapping("/signup")
 public User getUserTest(){
     User user = new User();
