@@ -28,8 +28,7 @@ public void signIn(@RequestBody User user) throws Exception {
     boolean exists = authenticationService.existingUser(user.getEmail());
 
     if(exists) {
-
-        System.out.println("User already exists");
+        throw new Exception("User already exists");
     } else {
         authenticationService.createUser(user);
         System.out.println("user created");
