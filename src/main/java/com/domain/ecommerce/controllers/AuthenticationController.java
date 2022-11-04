@@ -1,5 +1,6 @@
 package com.domain.ecommerce.controllers;
 
+import com.domain.ecommerce.exceptions.SignUpException;
 import com.domain.ecommerce.models.Address;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.repository.UserRepository;
@@ -24,11 +25,11 @@ public AuthenticationController(AuthenticationService authenticationService) {
 
 @PostMapping ("/signup")
 @ResponseStatus(value = HttpStatus.CREATED, reason = "User created")
-public void signIn(@RequestBody User user) throws Exception {
+public void signIn(@RequestBody User user) throws SignUpException {
     boolean exists = authenticationService.existingUser(user.getEmail());
 
     if (exists) {
-        throw new Exception("User already exists");
+        throw new SignUpException("User already exists");
     } else {
         authenticationService.createUser(user);
         System.out.println("user created");
