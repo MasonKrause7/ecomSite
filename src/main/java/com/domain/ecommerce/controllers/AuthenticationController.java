@@ -1,15 +1,16 @@
 package com.domain.ecommerce.controllers;
 
-import com.domain.ecommerce.exceptions.SignUpException;
+import com.domain.ecommerce.exceptions.authenticationControllerExceptions.SignUpException;
 import com.domain.ecommerce.models.Address;
 import com.domain.ecommerce.models.User;
-import com.domain.ecommerce.repository.UserRepository;
 import com.domain.ecommerce.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @CrossOrigin
@@ -24,15 +25,14 @@ public AuthenticationController(AuthenticationService authenticationService) {
 }
 
 @PostMapping ("/signup")
-@ResponseStatus(value = HttpStatus.CREATED, reason = "User created")
-public void signIn(@RequestBody User user) throws SignUpException {
+public ResponseEntity<Object> signIn(@RequestBody User user) throws SignUpException {
     boolean exists = authenticationService.existingUser(user.getEmail());
-
+    URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/signup").toUriString());
     if (exists) {
         throw new SignUpException("User already exists");
     } else {
         authenticationService.createUser(user);
-        System.out.println("user created");
+        return ResponseEntity.created(uri).body(authenticationService.createUser(user));
     }
 
 }

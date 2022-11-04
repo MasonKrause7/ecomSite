@@ -17,8 +17,8 @@ public AuthenticationService(UserRepository userRepository) {
 }
 
 
-public void createUser(User user) {
-    userRepository.save(user);
+public User createUser(User user) {
+   return userRepository.save(user);
 }
 public boolean existingUser(String  email) {
     Optional<User> databaseUser = userRepository.findUserByEmail(email);

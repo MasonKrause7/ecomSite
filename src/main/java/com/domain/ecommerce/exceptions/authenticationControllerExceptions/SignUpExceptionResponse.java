@@ -1,4 +1,4 @@
-package com.domain.ecommerce.exceptions;
+package com.domain.ecommerce.exceptions.authenticationControllerExceptions;
 
 import org.springframework.http.HttpStatus;
 
