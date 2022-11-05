@@ -5,18 +5,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.Clock;
 import java.time.ZonedDateTime;
 
 @ControllerAdvice
-public class SignUpExceptionHandler {
-    @ExceptionHandler(value = SignUpException.class)
-    public ResponseEntity<Object> signUpResponse(SignUpException e) {
-        SignUpExceptionResponse response = new SignUpExceptionResponse();
+public class AuthenticationControllerExceptionHandler {
+    @ExceptionHandler(value = AuthenticationControllerException.class)
+    public ResponseEntity<Object> signUpResponse(AuthenticationControllerException e) {
+        ExceptionResponse response = new ExceptionResponse();
         response.setZonedDateTime(ZonedDateTime.now());
         response.setMessage(e.getMessage());
         response.setStatus(HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
+
+
 }

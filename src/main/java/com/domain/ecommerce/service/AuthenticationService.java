@@ -33,5 +33,8 @@ public boolean existingUser(String  email) {
     }
 }
 
+public User getUser(User user) {
+    return userRepository.findUserByEmail(user.getEmail()).get();
+}
 
 }

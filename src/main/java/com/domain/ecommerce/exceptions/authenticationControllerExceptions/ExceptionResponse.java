@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;
 
-public class SignUpExceptionResponse {
+public class ExceptionResponse {
     ZonedDateTime zonedDateTime;
     HttpStatus status;
     String message;
