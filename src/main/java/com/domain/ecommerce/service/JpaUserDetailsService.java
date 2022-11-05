@@ -1,6 +1,6 @@
 package com.domain.ecommerce.service;
 
-import com.domain.ecommerce.models.SecurityUser;
+import com.domain.ecommerce.security.SecurityUser;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

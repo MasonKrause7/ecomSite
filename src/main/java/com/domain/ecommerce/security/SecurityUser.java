@@ -1,9 +1,12 @@
-package com.domain.ecommerce.models;
+package com.domain.ecommerce.security;
 
+import com.domain.ecommerce.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class SecurityUser implements UserDetails {
@@ -14,7 +17,9 @@ public class SecurityUser implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(()->"read");//change to Roles
+
+        SecurityAuthority securityAuthority = new SecurityAuthority(user.getRole());
+        return Collections.singletonList(securityAuthority);
     }
 
     @Override

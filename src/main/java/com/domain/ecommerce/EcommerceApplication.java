@@ -12,6 +12,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
+import java.util.ArrayList;
+
 @SpringBootApplication//CommandLineRunner interface to add dummy data when application is run
 public class EcommerceApplication  implements CommandLineRunner {
 
@@ -34,10 +36,13 @@ public class EcommerceApplication  implements CommandLineRunner {
         Product item4 = new Product("Ski mask","beddazzeld ski mask for your next robbery","urltoimage",35,2);
         itemDAO.save(item4);
         Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
-        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com","password","8056022425", Roles.ADMIN,address);
+        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com","password","8056022425", Roles.ROLE_ADMIN,address);
 
         userRepository.save(user);
 
+       Address address2 = new Address("1305","20th st","oceano","ca",93445,"United States");
+        User user2 = new User("Candelario","Aguilar","candel664@gmail.com","password","8056022425", Roles.ROLE_USER,address2);
+        userRepository.save(user2);
 
     }
 }
