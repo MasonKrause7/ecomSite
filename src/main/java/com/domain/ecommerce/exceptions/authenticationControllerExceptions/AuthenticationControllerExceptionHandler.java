@@ -15,6 +15,7 @@ public class AuthenticationControllerExceptionHandler {
         response.setZonedDateTime(ZonedDateTime.now());
         response.setMessage(e.getMessage());
         response.setStatus(HttpStatus.BAD_REQUEST);
+        System.out.println("bad request user already exists");
 
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }

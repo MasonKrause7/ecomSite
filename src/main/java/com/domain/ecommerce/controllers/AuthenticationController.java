@@ -13,6 +13,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin("*")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -29,9 +30,10 @@ public class AuthenticationController {
         boolean exists = authenticationService.existingUser(user.getEmail());
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/signup").toUriString());
         if (exists) {
+
             throw new AuthenticationControllerException("User already exists");
         } else {
-
+            System.out.println("user signed up");
             authenticationService.createUser(user);
             return ResponseEntity.created(uri).body(authenticationService.createUser(user));
         }
@@ -43,7 +45,6 @@ public class AuthenticationController {
     user doesnt exist, else create jwt token and send back to client.....good luck
      */
     @PostMapping("/signin")
-    @CrossOrigin
     public User signIn(Principal principal){
         return authenticationService.findByUserName(principal.getName());
     }
