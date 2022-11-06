@@ -1,5 +1,7 @@
 package com.domain.ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.jdbc.datasource.AbstractDriverBasedDataSource;
 
 import javax.persistence.*;
@@ -9,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Users")
-public class User {
+public class User  {
     public User() {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +28,10 @@ public class User {
     }
 
     private String email;
+    @JsonIgnore
     private String password;
     private String phoneNumber;
+    @JsonManagedReference
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name = "user_address",
@@ -113,17 +117,5 @@ public class User {
         this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address=" + address +
-                ", Role=" + Role +
-                '}';
-    }
+
 }

@@ -26,18 +26,6 @@ public class Product {
     public Product() {
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product items = (Product) o;
-        return Double.compare(items.price, price) == 0 && quantity == items.quantity && itemId.equals(items.itemId) && itemName.equals(items.itemName) && itemDescription.equals(items.itemDescription) && imageUrl.equals(items.imageUrl);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(itemId, itemName, itemDescription, imageUrl, price, quantity);
-    }
 
     public Long getItemID() {
         return itemId;

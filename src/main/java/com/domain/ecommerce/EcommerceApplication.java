@@ -41,7 +41,6 @@ public class EcommerceApplication  implements CommandLineRunner {
         itemDAO.save(item4);
         Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
         User user = new User("Candelario","Aguilar","candelarioa42@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Roles.ROLE_ADMIN,address);
-
         userRepository.save(user);
 
 

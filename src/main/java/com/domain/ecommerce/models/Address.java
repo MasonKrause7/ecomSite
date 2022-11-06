@@ -1,5 +1,8 @@
 package com.domain.ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -30,19 +33,6 @@ public class Address {
 
     }
 
-    @Override
-    public String toString() {
-        return "Address{" +
-                "address_id=" + address_id +
-                ", houseNumber='" + houseNumber + '\'' +
-                ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", postalCode=" + postalCode +
-                ", country='" + country + '\'' +
-                ", user=" + user +
-                '}';
-    }
 
     public Long getAddress_id() {
         return address_id;
@@ -108,6 +98,9 @@ public class Address {
         this.user = user;
     }
 
+
+
+    @JsonBackReference
     @ManyToMany(mappedBy = "address")
     private Set<User> user = new HashSet<>();
 

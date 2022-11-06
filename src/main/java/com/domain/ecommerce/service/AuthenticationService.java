@@ -33,8 +33,10 @@ public boolean existingUser(String  email) {
     }
 }
 
-public User getUser(User user) {
-    return userRepository.findUserByEmail(user.getEmail()).get();
+
+public User findByUserName(String username) {
+   return userRepository.findUserByEmail(username).get();
+
 }
 
 }

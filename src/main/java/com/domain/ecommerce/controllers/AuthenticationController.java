@@ -8,9 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.security.auth.login.LoginException;
 import java.net.URI;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/users")
@@ -45,9 +44,7 @@ public class AuthenticationController {
      */
     @PostMapping("/signin")
     @CrossOrigin
-    public String signIn() throws AuthenticationControllerException{
-
-        System.out.println("successful log in");
-        return "success";
+    public User signIn(Principal principal){
+        return authenticationService.findByUserName(principal.getName());
     }
 }
