@@ -33,7 +33,7 @@ public class AuthenticationController {
             System.out.println("user already exists");
             throw new AuthenticationControllerException("User already exists");
         } else {
-            System.out.println("controller: " + user);
+            System.out.println("creating user");
 
             return ResponseEntity.created(uri).body(authenticationService.createUser(user));
         }
@@ -46,6 +46,8 @@ public class AuthenticationController {
      */
     @PostMapping("/signin")
     public User signIn(Principal principal){
+
+        System.out.println("successfully authenticated");
         return authenticationService.findByUserName(principal.getName());
     }
 }

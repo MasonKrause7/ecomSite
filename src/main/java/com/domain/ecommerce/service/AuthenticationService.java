@@ -25,7 +25,7 @@ public User createUser(User user) {
     if(user.getRole() == null) {
         user.setRole(Roles.ROLE_USER);
     }
-    System.out.println("Auth Service: " + user);
+
    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
 }
