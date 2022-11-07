@@ -1,5 +1,6 @@
 package com.domain.ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.jdbc.datasource.AbstractDriverBasedDataSource;
@@ -31,7 +32,22 @@ public class User  {
 
     private String password;
     private String phoneNumber;
-    @JsonManagedReference
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address=" + address +
+                ", Role=" + Role +
+                '}';
+    }
+
+    @JsonBackReference
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name = "user_address",

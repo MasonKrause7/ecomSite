@@ -30,11 +30,12 @@ public class AuthenticationController {
         boolean exists = authenticationService.existingUser(user.getEmail());
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/signup").toUriString());
         if (exists) {
-
+            System.out.println("user already exists");
             throw new AuthenticationControllerException("User already exists");
         } else {
-            System.out.println("user signed up");
+            System.out.println(user);
             authenticationService.createUser(user);
+
             return ResponseEntity.created(uri).body(authenticationService.createUser(user));
         }
 
