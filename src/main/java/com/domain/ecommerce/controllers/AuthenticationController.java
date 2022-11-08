@@ -59,7 +59,7 @@ public class AuthenticationController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/signin").toUriString());
         String token = jwtTokenService.generateAccessToken(authentication);
 
-        return ResponseEntity.created(uri).body(token);
+        return ResponseEntity.accepted().body(token);
     }
 
     @PostMapping("/refresh")
