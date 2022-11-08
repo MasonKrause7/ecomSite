@@ -1,13 +1,9 @@
 package com.domain.ecommerce.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.springframework.jdbc.datasource.AbstractDriverBasedDataSource;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -43,7 +39,7 @@ public class User  {
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address=" + address +
-                ", Role=" + Role +
+                ", authority=" + authority +
                 '}';
     }
 
@@ -54,19 +50,19 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "address_id"))
     private Set<Address> address = new HashSet<>();
-    @Enumerated(EnumType.STRING)
-    private Roles Role;
+
+    private String authority;
 
 
 
 
-    public User(String firstName, String lastName, String email, String password, String phoneNumber, Roles role, Address address) {
+    public User(String firstName, String lastName, String email, String password, String phoneNumber, String authority, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        Role = role;
+        this.authority = authority;
         this.address.add(address);
     }
 
@@ -113,12 +109,13 @@ public class User  {
         this.phoneNumber = phoneNumber;
     }
 
-    public Roles getRole() {
-        return Role;
+    public String getAuthority() {
+
+        return authority;
     }
 
-    public void setRole(Roles role) {
-        Role = role;
+    public void setAuthority(String string) {
+        this.authority = authority;
     }
 
     public Set<Address> getAddress() {

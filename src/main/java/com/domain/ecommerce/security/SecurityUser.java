@@ -2,6 +2,7 @@ package com.domain.ecommerce.security;
 
 import com.domain.ecommerce.models.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -18,8 +19,11 @@ public class SecurityUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        SecurityAuthority securityAuthority = new SecurityAuthority(user.getRole());
-        return Collections.singletonList(securityAuthority);
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        String authority = String.valueOf(user.getAuthority());
+        authorities.add(new SimpleGrantedAuthority(authority));
+
+        return authorities;
     }
 
     @Override

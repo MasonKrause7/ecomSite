@@ -1,6 +1,5 @@
 package com.domain.ecommerce.service;
 
-import com.domain.ecommerce.models.Roles;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,9 @@ public AuthenticationService(UserRepository userRepository, PasswordEncoder bCry
 
 
 public User createUser(User user) {
-    if(user.getRole() == null) {
-        user.setRole(Roles.ROLE_USER);
+    if(user.getAuthority() == null) {
+        user.setAuthority("USER");
+
     }
 
    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
