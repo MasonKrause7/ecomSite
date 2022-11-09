@@ -28,6 +28,22 @@ public class User  {
 
     private String password;
     private String phoneNumber;
+    @OneToOne
+    private RefreshToken refreshToken;
+
+    public User(Long user_id, String firstName, String lastName, String email, String password, String phoneNumber, RefreshToken refreshToken, Set<Address> address, String authority) {
+        this.user_id = user_id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.refreshToken = refreshToken;
+        this.address = address;
+        this.authority = authority;
+    }
+
+
 
     @Override
     public String toString() {
@@ -52,6 +68,7 @@ public class User  {
     private Set<Address> address = new HashSet<>();
 
     private String authority;
+
 
 
 

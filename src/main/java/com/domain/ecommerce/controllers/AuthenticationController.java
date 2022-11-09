@@ -3,11 +3,10 @@ package com.domain.ecommerce.controllers;
 import com.domain.ecommerce.exceptions.authenticationControllerExceptions.AuthenticationControllerException;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.service.AuthenticationService;
-import com.domain.ecommerce.service.JwtTokenService;
+import com.domain.ecommerce.utils.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.logging.LogLevel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,14 +23,14 @@ import java.sql.Timestamp;
 public class AuthenticationController {
     Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthenticationService authenticationService;
-    private final JwtTokenService jwtTokenService;
+    private final JwtTokenUtil jwtTokenUtil;
     private final JwtDecoder jwtDecoder;
 
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, PasswordEncoder bCryptPasswordEncoder, JwtTokenService jwtTokenService, JwtDecoder jwtDecoder) {
+    public AuthenticationController(AuthenticationService authenticationService, PasswordEncoder bCryptPasswordEncoder, JwtTokenUtil jwtTokenUtil, JwtDecoder jwtDecoder) {
         this.authenticationService = authenticationService;
-        this.jwtTokenService = jwtTokenService;
+        this.jwtTokenUtil = jwtTokenUtil;
         this.jwtDecoder = jwtDecoder;
     }
 
@@ -55,20 +54,21 @@ public class AuthenticationController {
     user doesn't exist, else create jwt token and send back to client.....good luck
      */
     @PostMapping("/signin")
-    public ResponseEntity<Object> signIn(Authentication authentication){
+    public ResponseEntity<Object> signIn(Authentication authentication){//add exception
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/signin").toUriString());
-        String token = jwtTokenService.generateAccessToken(authentication);
+        String token = jwtTokenUtil.generateAccessToken(authentication);
 
         return ResponseEntity.accepted().body(token);
     }
 
     @PostMapping("/refresh")
-    public String refreshToken(Authentication authentication) {//test
+    public ResponseEntity<Object>refreshToken(Authentication authentication) {//add exception
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/refresh").toUriString());
         Jwt jwt = (Jwt) authentication.getCredentials();
         logger.info("Name: " + jwt.getSubject());
         logger.info("TIME ISSUED: "+ Timestamp.from(jwt.getIssuedAt()));
         logger.info("EXPIRES ISSUED: "+ Timestamp.from(jwt.getExpiresAt()));
-        return "request complete";
+        return ResponseEntity.accepted().body("ok");//return access token
 
     }
 }

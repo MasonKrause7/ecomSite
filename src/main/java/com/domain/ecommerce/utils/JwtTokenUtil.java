@@ -1,6 +1,5 @@
-package com.domain.ecommerce.service;
+package com.domain.ecommerce.utils;
 
-import com.nimbusds.jwt.JWTClaimsSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,24 +8,21 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
  * @author Candelario Aguilar Torres
  **/
 @Service
-public class JwtTokenService {
+public class JwtTokenUtil {
     private final JwtEncoder jwtEncoder;
 
 
 
     @Autowired
-    public JwtTokenService(JwtEncoder jwtEncoder) {
+    public JwtTokenUtil(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }
 
