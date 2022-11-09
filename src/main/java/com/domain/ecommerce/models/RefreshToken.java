@@ -7,21 +7,22 @@ import javax.persistence.*;
  **/
 
 @Entity
-@Table(name = "refresh_tokens")
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long token_id;
+    @Column(length = 500)
     private String token;
-    @OneToOne
+    @OneToOne(mappedBy = "refreshToken")
     private User user;
 
-    public Long getToken_id() {
-        return token_id;
+    public RefreshToken(String token, User user) {
+        this.token = token;
+        this.user = user;
     }
 
-    public void setToken_id(Long token_id) {
-        this.token_id = token_id;
+    public RefreshToken() {
+
     }
 
     public String getToken() {
@@ -32,11 +33,7 @@ public class RefreshToken {
         this.token = token;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public RefreshToken(String token) {
+        this.token = token;
     }
 }

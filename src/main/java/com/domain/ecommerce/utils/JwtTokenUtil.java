@@ -26,7 +26,7 @@ public class JwtTokenUtil {
         this.jwtEncoder = jwtEncoder;
     }
 
-    public String generateAccessToken(Authentication authentication) {// use spring authentication interface
+    public String generateToken(Authentication authentication) {// use spring authentication interface
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

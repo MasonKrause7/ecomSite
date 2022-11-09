@@ -3,19 +3,18 @@ package com.domain.ecommerce.controllers;
 import com.domain.ecommerce.exceptions.authenticationControllerExceptions.AuthenticationControllerException;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.service.AuthenticationService;
-import com.domain.ecommerce.utils.JwtTokenUtil;
+import com.domain.ecommerce.service.JwtTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.sql.Timestamp;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,15 +22,14 @@ import java.sql.Timestamp;
 public class AuthenticationController {
     Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthenticationService authenticationService;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final JwtDecoder jwtDecoder;
+    private final JwtTokenService jwtTokenService;
 
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, PasswordEncoder bCryptPasswordEncoder, JwtTokenUtil jwtTokenUtil, JwtDecoder jwtDecoder) {
+    public AuthenticationController(AuthenticationService authenticationService, JwtTokenService jwtTokenService) {
         this.authenticationService = authenticationService;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.jwtDecoder = jwtDecoder;
+
+        this.jwtTokenService = jwtTokenService;
     }
 
     @PostMapping("/signup")
@@ -55,10 +53,8 @@ public class AuthenticationController {
      */
     @PostMapping("/signin")
     public ResponseEntity<Object> signIn(Authentication authentication){//add exception
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/signin").toUriString());
-        String token = jwtTokenUtil.generateAccessToken(authentication);
-
-        return ResponseEntity.accepted().body(token);
+        Map<String, String> tokens = jwtTokenService.getTokens(authentication);
+        return ResponseEntity.accepted().body(tokens);
     }
 
     @PostMapping("/refresh")

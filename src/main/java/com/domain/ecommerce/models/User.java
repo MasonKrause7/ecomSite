@@ -3,6 +3,7 @@ package com.domain.ecommerce.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.sql.Ref;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,17 +29,28 @@ public class User  {
 
     private String password;
     private String phoneNumber;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "token_id",referencedColumnName = "token_id")
     private RefreshToken refreshToken;
 
-    public User(Long user_id, String firstName, String lastName, String email, String password, String phoneNumber, RefreshToken refreshToken, Set<Address> address, String authority) {
+
+    public RefreshToken getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(RefreshToken refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+
+
+    public User(Long user_id, String firstName, String lastName, String email, String password, String phoneNumber, Set<Address> address, String authority) {
         this.user_id = user_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.refreshToken = refreshToken;
         this.address = address;
         this.authority = authority;
     }
