@@ -58,13 +58,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Object>refreshToken(Authentication authentication) {//add exception
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/refresh").toUriString());
-        Jwt jwt = (Jwt) authentication.getCredentials();
-        logger.info("Name: " + jwt.getSubject());
-        logger.info("TIME ISSUED: "+ Timestamp.from(jwt.getIssuedAt()));
-        logger.info("EXPIRES ISSUED: "+ Timestamp.from(jwt.getExpiresAt()));
-        return ResponseEntity.accepted().body("ok");//return access token
+    public ResponseEntity<Object>refreshToken(Authentication authentication)throws AuthenticationControllerException {//add exception
+       logger.debug(authentication.getName());
+       try {
+           String token = jwtTokenService.refreshAccessToken(authentication);
+           return ResponseEntity.accepted().body(token);
+       }catch (RuntimeException e) {
+           throw new AuthenticationControllerException("Refresh token is expired or does not exist");
+       }
+
 
     }
 }

@@ -1,5 +1,6 @@
 package com.domain.ecommerce.exceptions.authenticationControllerExceptions;
 
+import com.domain.ecommerce.exceptions.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,6 +20,8 @@ public class AuthenticationControllerExceptionHandler {
 
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
+
+
 
 
 }
