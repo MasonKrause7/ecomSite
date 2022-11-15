@@ -72,7 +72,7 @@ public class User  {
     }
 
     @JsonBackReference
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_address",
             joinColumns = @JoinColumn(name = "user_id"),

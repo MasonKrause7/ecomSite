@@ -6,12 +6,15 @@ import com.domain.ecommerce.models.Address;
 import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.security.RSAKeyProperties;
+import com.domain.ecommerce.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.mail.Transport;
 
 @EnableConfigurationProperties(RSAKeyProperties.class)
 @SpringBootApplication//CommandLineRunner interface to add dummy data when application is run
@@ -27,6 +30,9 @@ public class EcommerceApplication  implements CommandLineRunner {
 
     @Autowired
     PasswordEncoder bcryptpasswordEncoder;
+
+    @Autowired
+    EmailService email;
     @Override
     public void run(String... args) throws Exception {
         //create dummy items and add them to database
@@ -45,6 +51,9 @@ public class EcommerceApplication  implements CommandLineRunner {
         Address address2 = new Address("134","main st","clarksville","tn",93445,"United States");
         User user2 = new User("Frank","Guzman","frankg@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", "USER",address2);
         userRepository.save(user2);
+
+
+
 
 
     }

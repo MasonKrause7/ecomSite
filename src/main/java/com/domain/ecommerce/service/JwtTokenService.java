@@ -27,7 +27,7 @@ public class JwtTokenService {
     public Map<String, String> getTokens(Authentication authentication) {
         Map<String,String> tokenMap = new HashMap<>();
         String accessToken = jwtTokenUtil.generateToken(authentication);
-        String refreshToken = jwtTokenUtil.generateToken(authentication);
+        String refreshToken = jwtTokenUtil.generateRefreshToken(authentication);
         tokenMap.put("accessToken",accessToken);
         tokenMap.put("refreshToken",refreshToken);
         saveRefreshToken(authentication);
@@ -35,13 +35,15 @@ public class JwtTokenService {
 
     }
 
-    private void saveRefreshToken( Authentication authentication) {
+    private void saveRefreshToken(Authentication authentication) {
        User user = userRepository.findUserByEmail(authentication.getName()).get();
        user.setRefreshToken(new RefreshToken());
        userRepository.save(user);
 
 
     }
+
+
 
     public String refreshAccessToken(Authentication authentication) throws AuthenticationControllerException{
         User user = userRepository.findUserByEmail(authentication.getName()).get();
@@ -53,4 +55,12 @@ public class JwtTokenService {
         }else throw new AuthenticationControllerException("REFRESH TOKEN IS EXPIRED OR DOES NOT EXIST");
 
     }
+
+    public String getTempToken(User user) {
+        user.setRefreshToken(new RefreshToken());
+        userRepository.save(user);
+        return jwtTokenUtil.generateTempToken(user);
+    }
+
+
 }

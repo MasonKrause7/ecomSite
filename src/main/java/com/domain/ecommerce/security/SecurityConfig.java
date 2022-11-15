@@ -47,6 +47,7 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                .exceptionHandling((exception) -> exception.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()).accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
                .authorizeRequests().mvcMatchers("/api/users/signup").permitAll()
+               .mvcMatchers("/forgot-password").permitAll()
                .mvcMatchers("/h2-console/*").permitAll()
                .mvcMatchers("/api/users/signin").authenticated()
                .mvcMatchers("/api/employees/**").hasAuthority("SCOPE_ADMIN")

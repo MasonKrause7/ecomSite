@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Random;
 
 
 @Service
@@ -36,12 +37,13 @@ public boolean existingUser(String  email) {
     } else {
         return false;
     }
+
+}
+
+public User findUser(String email) {
+    return userRepository.findUserByEmail(email).get();
 }
 
 
-public User findByUserName(String username) {
-   return userRepository.findUserByEmail(username).get();
-
-}
 
 }

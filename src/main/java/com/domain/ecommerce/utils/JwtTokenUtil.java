@@ -1,5 +1,6 @@
 package com.domain.ecommerce.utils;
 
+import com.domain.ecommerce.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +36,7 @@ public class JwtTokenUtil {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(1,ChronoUnit.HOURS))
+                .expiresAt(now.plus(15,ChronoUnit.MINUTES))
                 .subject(authentication.getName())
                 .claim("scope",scope)
                 .build();
@@ -43,4 +44,40 @@ public class JwtTokenUtil {
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
     }
+
+    public String generateRefreshToken(Authentication authentication) {// use spring authentication interface
+        Instant now = Instant.now();
+        String scope = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(" "));
+
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plus(24,ChronoUnit.HOURS))
+                .subject(authentication.getName())
+                .claim("scope",scope)
+                .build();
+
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
+    }
+
+    public String generateTempToken(User user) {
+        Instant now = Instant.now();
+        String scope = user.getAuthority();
+
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plus(10,ChronoUnit.MINUTES))
+                .subject(user.getEmail())
+                .claim("scope",scope)
+                .build();
+
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
+
+    }
+
 }
