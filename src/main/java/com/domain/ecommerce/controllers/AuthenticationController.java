@@ -84,9 +84,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Object> resetPassword(String email) throws AuthenticationControllerException {
+    public ResponseEntity<Object> resetPassword(Authentication authentication) throws AuthenticationControllerException {
+        try {
+            String token = jwtTokenService.refreshAccessToken(authentication);
+            return ResponseEntity.ok(token);
+        }catch (AuthenticationControllerException e) {
+            throw new AuthenticationControllerException("could not process");
+        }
 
-        return ResponseEntity.accepted().build();
+
 
     }
 
