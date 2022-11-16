@@ -71,30 +71,25 @@ public class AuthenticationController {
 
     }
 
-    @PostMapping("/forgot-password")
+    @PostMapping("/forgot-password")// expire refresh token
     public ResponseEntity<Object> forgotPassword(String email) throws AuthenticationControllerException {
-        if(authenticationService.existingUser("Masongkrause@yahoo.com")) {
-           String tempToken = jwtTokenService.getTempToken(authenticationService.findUser("Masongkrause@yahoo.com"));
-           emailService.sendMessage("Masongkrause@yahoo.com",tempToken);
+        if (authenticationService.existingUser("Masongkrause@yahoo.com")) {
+            User user = authenticationService.findUser(email);
+            user.setRefreshToken(null);
+            String tempToken = jwtTokenService.getTempToken(authenticationService.findUser("Masongkrause@yahoo.com"));
+            emailService.sendMessage("Masongkrause@yahoo.com", tempToken);
             return ResponseEntity.accepted().build();
         } else throw new AuthenticationControllerException("could not find user");
-
 
 
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Object> resetPassword(Authentication authentication) throws AuthenticationControllerException {
-        try {
-            String token = jwtTokenService.refreshAccessToken(authentication);
-            return ResponseEntity.ok(token);
-        }catch (AuthenticationControllerException e) {
-            throw new AuthenticationControllerException("could not process");
-        }
+    public ResponseEntity<Object> resetPassword(Authentication authentication) {
 
-
+        Map<String, String> tokens = jwtTokenService.getTokens(authentication);
+        return ResponseEntity.ok(tokens);
 
     }
-
 
 }
