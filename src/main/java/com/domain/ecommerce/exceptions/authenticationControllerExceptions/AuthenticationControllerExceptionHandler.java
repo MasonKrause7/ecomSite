@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.ZonedDateTime;
-
+/*
+catches any AuthenticationControllerException thrown, and creates a new Exception response to be sent back to the front end.
+ */
 @ControllerAdvice
 public class AuthenticationControllerExceptionHandler {
     @ExceptionHandler(value = AuthenticationControllerException.class)

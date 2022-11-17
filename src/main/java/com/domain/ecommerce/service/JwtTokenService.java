@@ -14,6 +14,10 @@ import java.util.Map;
 /**
  * @author Candelario Aguilar Torres
  **/
+
+/*
+ * Utility class used to generate JWT tokens
+ */
 @Service
 public class JwtTokenService {
     private final JwtTokenUtil jwtTokenUtil;
@@ -23,7 +27,9 @@ public class JwtTokenService {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userRepository = userRepository;
     }
-
+  /*
+  Get access and refresh token
+   */
     public Map<String, String> getTokens(Authentication authentication) {
         Map<String,String> tokenMap = new HashMap<>();
         String accessToken = jwtTokenUtil.generateToken(authentication);
@@ -35,6 +41,10 @@ public class JwtTokenService {
 
     }
 
+    /*
+    creates a "refresh token". This object just stores information about the actual JWT refresh token such as time and the user it belongs to. used to compare expiration dates of
+    the actual JWT refresh token and what's in the database. when a new JWT Refresh Token is created, a new object of type RefreshToken() is created and stored in the database.
+     */
     private void saveRefreshToken(Authentication authentication) {
        User user = userRepository.findUserByEmail(authentication.getName()).get();
        user.setRefreshToken(new RefreshToken());

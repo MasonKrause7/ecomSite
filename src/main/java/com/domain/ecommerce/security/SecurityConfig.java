@@ -1,6 +1,4 @@
 package com.domain.ecommerce.security;
-
-import com.domain.ecommerce.service.JpaUserDetailsService;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -39,6 +37,8 @@ private final RSAKeyProperties rsaKeys;
 public SecurityConfig(RSAKeyProperties rsaKeys) {
     this.rsaKeys = rsaKeys;
 }
+
+
    @Bean
    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
        return httpSecurity
@@ -48,30 +48,36 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
                .exceptionHandling((exception) -> exception.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()).accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
                .authorizeRequests().mvcMatchers("/api/users/signup").permitAll()
                .mvcMatchers("/forgot-password").permitAll()
-               .mvcMatchers("/h2-console/*").permitAll()
+               .mvcMatchers("/h2-console/*").permitAll()// need in order to view h2 database console while security is enabled.
                .mvcMatchers("/api/users/signin").authenticated()
                .mvcMatchers("/api/employees/**").hasAuthority("SCOPE_ADMIN")
                .and()
-               .headers().frameOptions().sameOrigin()
+               .headers().frameOptions().sameOrigin()// need in order to view h2 database console while security is enabled.
                .and()
-               .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+               .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()//disable because we are using jwt's not sessions
                .httpBasic().and()
                .build();
    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-       return new BCryptPasswordEncoder();//replace later with Bcrypt
+       return new BCryptPasswordEncoder();
     }
+
+
+    /*
+    the two beans below are needed in order to configure application to use jwt tokens.
+     must add spring-security-oauth2-jose  and spring-security-oauth2-resource-server to pom.xml before using.
+     */
 
     @Bean
     JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
-    }
+    }//public key verifies that the verifies the signature on the token
 
     @Bean
     JwtEncoder jwtEncoder() {
-    JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
+    JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build(); //private key used to sign token
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
     return new NimbusJwtEncoder(jwks);
     }

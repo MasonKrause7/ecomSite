@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.mail.Transport;
 
-@EnableConfigurationProperties(RSAKeyProperties.class)
+@EnableConfigurationProperties(RSAKeyProperties.class)//needed in order to access properties from the .properties file programmatically. reference RSAKeyProperties.class for example.
 @SpringBootApplication//CommandLineRunner interface to add dummy data when application is run
 public class EcommerceApplication  implements CommandLineRunner {
 

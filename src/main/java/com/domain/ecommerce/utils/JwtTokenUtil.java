@@ -16,6 +16,11 @@ import java.util.stream.Collectors;
 /**
  * @author Candelario Aguilar Torres
  **/
+
+
+/*
+generates the jwt tokens
+ */
 @Service
 public class JwtTokenUtil {
     private final JwtEncoder jwtEncoder;
@@ -26,7 +31,9 @@ public class JwtTokenUtil {
     public JwtTokenUtil(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }
-
+  /*
+  generates an access token
+   */
     public String generateToken(Authentication authentication) {// use spring authentication interface
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()
@@ -62,7 +69,9 @@ public class JwtTokenUtil {
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
     }
-
+/*
+returns a temporary token to be used when a password reset is requested
+ */
     public String generateTempToken(User user) {
         Instant now = Instant.now();
         String scope = user.getAuthority();

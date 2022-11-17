@@ -10,11 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
+import java.util.Base64;
 import java.util.Map;
-
+/*
+Handles login and registration of users. All users have a role of "USER".
+ */
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin("*")
@@ -24,43 +28,43 @@ public class AuthenticationController {
     private final JwtTokenService jwtTokenService;
     private final EmailService emailService;
 
+    private final PasswordEncoder bCryptPasswordEncoder;
+
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, JwtTokenService jwtTokenService, EmailService emailService) {
+    public AuthenticationController(AuthenticationService authenticationService, JwtTokenService jwtTokenService, EmailService emailService, PasswordEncoder bCryptPasswordEncoder) {
         this.authenticationService = authenticationService;
 
         this.jwtTokenService = jwtTokenService;
         this.emailService = emailService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
+    /*
+    does not require jwt token for access
+     */
     @PostMapping("/signup")
     public ResponseEntity<Object> signUp(@RequestBody User user) throws AuthenticationControllerException {
-        boolean exists = authenticationService.existingUser(user.getEmail());
+        boolean exists = authenticationService.userExist(user.getEmail());
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/signup").toUriString());
         if (exists) {
-            System.out.println("user already exists");
             throw new AuthenticationControllerException("User already exists");
         } else {
-            System.out.println("creating user");
 
             return ResponseEntity.created(uri).body(authenticationService.createUser(user));
         }
 
     }
 
-    /*
-    need to create exception for log in if fails, send back bad request
-    user doesn't exist, else create jwt token and send back to client.....good luck
-     */
+
     @PostMapping("/signin")
-    public ResponseEntity<Object> signIn(Authentication authentication) {//add exception
+    public ResponseEntity<Object> signIn(Authentication authentication) {
         Map<String, String> tokens = jwtTokenService.getTokens(authentication);
         return ResponseEntity.accepted().body(tokens);
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Object> refreshToken(Authentication authentication) throws AuthenticationControllerException {//add exception
-        logger.debug(authentication.getName());
+    public ResponseEntity<Object> refreshToken(Authentication authentication) throws AuthenticationControllerException {
+
         try {
             String token = jwtTokenService.refreshAccessToken(authentication);
             return ResponseEntity.accepted().body(token);
@@ -70,14 +74,15 @@ public class AuthenticationController {
 
 
     }
+    /*
+    does not require jwt token for access.
 
+     */
     @PostMapping("/forgot-password")// expire refresh token
     public ResponseEntity<Object> forgotPassword(String email) throws AuthenticationControllerException {
-        if (authenticationService.existingUser("Masongkrause@yahoo.com")) {
-            User user = authenticationService.findUser(email);
-            user.setRefreshToken(null);
-            String tempToken = jwtTokenService.getTempToken(authenticationService.findUser("Masongkrause@yahoo.com"));
-            emailService.sendMessage("Masongkrause@yahoo.com", tempToken);
+        if (authenticationService.userExist(email)) {
+            String tempToken = jwtTokenService.getTempToken(authenticationService.findUserByEmail(email));
+            emailService.sendMessage(email, tempToken);
             return ResponseEntity.accepted().build();
         } else throw new AuthenticationControllerException("could not find user");
 
@@ -85,8 +90,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Object> resetPassword(Authentication authentication) {
-
+    public ResponseEntity<Object> resetPassword(@RequestBody String newPassword,Authentication authentication) {
+        String email = authentication.getName();
+        byte[] bytePassword = Base64.getDecoder().decode(newPassword);
+        String password = new String(bytePassword);
+        authenticationService.setPassword(email,password);
         Map<String, String> tokens = jwtTokenService.getTokens(authentication);
         return ResponseEntity.ok(tokens);
 

@@ -3,7 +3,9 @@ package com.domain.ecommerce.exceptions;
 import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;
-
+/*
+General exception information to be sent in response body for errors that occur.
+ */
 public class ExceptionResponse {
     ZonedDateTime zonedDateTime;
     HttpStatus status;

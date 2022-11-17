@@ -143,7 +143,7 @@ public class User  {
         return authority;
     }
 
-    public void setAuthority(String string) {
+    public void setAuthority(String authority) {
         this.authority = authority;
     }
 

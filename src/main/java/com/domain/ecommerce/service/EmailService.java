@@ -17,7 +17,7 @@ public class EmailService {
 
     private JavaMailSender emailSender;
     @Autowired
-    public EmailService(JavaMailSender emailSender, JwtTokenService jwtTokenService) {
+    public EmailService(JavaMailSender emailSender) {
         this.emailSender = emailSender;
 
     }

@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Random;
 
 
 @Service
@@ -30,7 +29,7 @@ public User createUser(User user) {
    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
 }
-public boolean existingUser(String  email) {
+public boolean userExist(String  email) {
     Optional<User> databaseUser = userRepository.findUserByEmail(email);
     if(databaseUser.isPresent()) {
         return true;
@@ -40,8 +39,14 @@ public boolean existingUser(String  email) {
 
 }
 
-public User findUser(String email) {
+public User findUserByEmail(String email) {
     return userRepository.findUserByEmail(email).get();
+}
+
+public void setPassword(String email,String newPassword) {
+    User user = findUserByEmail(email);
+    user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+    userRepository.save(user);
 }
 
 
