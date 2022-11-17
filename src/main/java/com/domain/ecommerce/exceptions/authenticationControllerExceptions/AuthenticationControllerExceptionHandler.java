@@ -14,13 +14,34 @@ catches any AuthenticationControllerException thrown, and creates a new Exceptio
 public class AuthenticationControllerExceptionHandler {
     @ExceptionHandler(value = AuthenticationControllerException.class)
     public ResponseEntity<Object> signUpResponse(AuthenticationControllerException e) {
-        ExceptionResponse response = new ExceptionResponse();
-        response.setZonedDateTime(ZonedDateTime.now());
-        response.setMessage(e.getMessage());
-        response.setStatus(HttpStatus.BAD_REQUEST);
-        System.out.println("bad request user already exists");
+       if(e.getMessage().equals("User already exists")) {
+           ExceptionResponse response = new ExceptionResponse();
+           response.setZonedDateTime(ZonedDateTime.now());
+           response.setMessage(e.getMessage());
+           response.setStatus(HttpStatus.BAD_REQUEST);
+           System.out.println("bad request user already exists");
 
-        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+           return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+       }
+       else if(e.getMessage().equals("could not find user")){
+           ExceptionResponse response = new ExceptionResponse();
+           response.setZonedDateTime(ZonedDateTime.now());
+           response.setMessage(e.getMessage());
+           response.setStatus(HttpStatus.NOT_FOUND);
+           System.out.println("bad request user does not exist");
+
+           return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+       }
+       else{
+           System.out.println("ERROR IN EXCEPTION HANDLER - UNRECOGNIZED ERROR MESSAGE");
+           ExceptionResponse response = new ExceptionResponse();
+           response.setZonedDateTime(ZonedDateTime.now());
+           response.setMessage(e.getMessage());
+           response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+           System.out.println("bad request user does not exist");
+
+           return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 
 

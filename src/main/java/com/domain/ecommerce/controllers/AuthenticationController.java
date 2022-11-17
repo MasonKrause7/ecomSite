@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 /*
 Handles login and registration of users. All users have a role of "USER".
@@ -79,11 +80,13 @@ public class AuthenticationController {
 
      */
     @PostMapping("/forgot-password")// expire refresh token
-    public ResponseEntity<Object> forgotPassword(String email) throws AuthenticationControllerException {
+    public ResponseEntity<Object> forgotPassword(@RequestBody String email) throws AuthenticationControllerException {
         if (authenticationService.userExist(email)) {
             String tempToken = jwtTokenService.getTempToken(authenticationService.findUserByEmail(email));
             emailService.sendMessage(email, tempToken);
-            return ResponseEntity.accepted().build();
+            Map<String, String> respMap = new HashMap<>();
+            respMap.put("msg", "email sent");
+            return ResponseEntity.ok(respMap);
         } else throw new AuthenticationControllerException("could not find user");
 
 
