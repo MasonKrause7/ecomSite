@@ -29,7 +29,6 @@ public class AuthenticationController {
     private final JwtTokenService jwtTokenService;
     private final EmailService emailService;
 
-    private final PasswordEncoder bCryptPasswordEncoder;
 
 
     @Autowired
@@ -38,7 +37,7 @@ public class AuthenticationController {
 
         this.jwtTokenService = jwtTokenService;
         this.emailService = emailService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+
     }
     /*
     does not require jwt token for access
@@ -59,6 +58,7 @@ public class AuthenticationController {
 
     @PostMapping("/signin")
     public ResponseEntity<Object> signIn(Authentication authentication) {
+        System.out.println("LOGGING IN");
         Map<String, String> tokens = jwtTokenService.getTokens(authentication);
         return ResponseEntity.accepted().body(tokens);
     }
@@ -79,7 +79,7 @@ public class AuthenticationController {
     does not require jwt token for access.
 
      */
-    @PostMapping("/forgot-password")// expire refresh token
+    @PostMapping("/forgot-password")
     public ResponseEntity<Object> forgotPassword(@RequestBody String email) throws AuthenticationControllerException {
         if (authenticationService.userExist(email)) {
             String tempToken = jwtTokenService.getTempToken(authenticationService.findUserByEmail(email));

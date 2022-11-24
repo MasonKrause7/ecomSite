@@ -1,77 +1,71 @@
 package com.domain.ecommerce.models;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long itemId;
-    private String itemName;
-    private String itemDescription;
-    private String imageUrl;
-    private double price;
-    private int quantity;
-
-    public Product(String itemName, String itemDescription, String imageUrl, double price, int quantity) {
-        this.itemName = itemName;
-        this.itemDescription = itemDescription;
-        this.imageUrl = imageUrl;
-        this.price = price;
-        this.quantity = quantity;
-    }
+    private Long productId;
+   
+    private Long categoryId;
+    private String productName;
+    private String productDescription;
+    private String imageURL;
 
     public Product() {
     }
 
-
-    public Long getItemID() {
-        return itemId;
+    public Product(Long productId, Long categoryId, String productName, String productDescription, String imageURL) {
+        this.productId = productId;
+        this.categoryId = categoryId;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.imageURL = imageURL;
     }
 
-    public void setItemID(Long itemID) {
-        this.itemId = itemID;
+    public Long getProductId() {
+        return productId;
     }
 
-    public String getItemName() {
-        return itemName;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public String getItemDescription() {
-        return itemDescription;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public void setItemDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
+    public String getProductName() {
+        return productName;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public String getProductDescription() {
+        return productDescription;
     }
 
-    public double getPrice() {
-        return price;
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+
+
+
 }

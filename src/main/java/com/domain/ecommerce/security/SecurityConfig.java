@@ -49,6 +49,7 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
                .authorizeRequests().mvcMatchers("/api/users/signup").permitAll()
                .mvcMatchers("/forgot-password").permitAll()
                .mvcMatchers("/h2-console/*").permitAll()// need in order to view h2 database console while security is enabled.
+               .mvcMatchers("/api/categories").permitAll()
                .mvcMatchers("/api/users/signin").authenticated()
                .mvcMatchers("/api/employees/**").hasAuthority("SCOPE_ADMIN")
                .and()

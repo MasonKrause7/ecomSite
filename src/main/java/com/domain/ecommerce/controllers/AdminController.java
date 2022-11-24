@@ -24,25 +24,25 @@ public class AdminController {
     /*
     retrieves all products from database
      */
-    @GetMapping("/items")
+    @GetMapping("/products")
     public List<Product> getItems() {
 
         return adminService.getAllItems();
     }
-
-
-    @GetMapping("/items/{id}")
+    @GetMapping("/products/{id}")
     public Optional<Product> getItem(@PathVariable Long id) {
         System.out.println(id);
         return adminService.getItem(id);
     }
 
-    @PostMapping("/items")
+    @PostMapping("/products")
     public void createItem(@RequestBody Product item) {
         adminService.createItem(item);
     }
 
-    @DeleteMapping("/items/{id}")
+    //ADD @PUTMAPPING METHOD TO UPDATE PRODUCT INFORMATION
+
+    @DeleteMapping("/products/{id}")
     public void deleteItem(@PathVariable Long id) {
         adminService.deleteItem(id);
     }

@@ -1,5 +1,7 @@
 package com.domain.ecommerce;
 
+import com.domain.ecommerce.models.Category;
+import com.domain.ecommerce.repository.CategoryRepository;
 import com.domain.ecommerce.repository.ProductRepository;
 import com.domain.ecommerce.repository.UserRepository;
 import com.domain.ecommerce.models.Address;
@@ -14,8 +16,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.mail.Transport;
+import javax.transaction.Transactional;
+import java.util.Arrays;
 
+
+@Transactional
 @EnableConfigurationProperties(RSAKeyProperties.class)//needed in order to access properties from the .properties file programmatically. reference RSAKeyProperties.class for example.
 @SpringBootApplication//CommandLineRunner interface to add dummy data when application is run
 public class EcommerceApplication  implements CommandLineRunner {
@@ -23,6 +28,9 @@ public class EcommerceApplication  implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(EcommerceApplication.class, args);
     }
+
+    @Autowired
+    private CategoryRepository catDAO;
     @Autowired
     private ProductRepository itemDAO;
     @Autowired
@@ -35,15 +43,28 @@ public class EcommerceApplication  implements CommandLineRunner {
     EmailService email;
     @Override
     public void run(String... args) throws Exception {
-        //create dummy items and add them to database
-       Product item1 = new Product("gameboy","green gameboy","urltoimage",15.99,3);
-        itemDAO.save(item1);
-        Product item2 = new Product("tv","20","urltoimage",200.99,1);
-        itemDAO.save(item2);
-        Product item3 = new Product("hp laptop","15 hp laptop","urltoimage",400,8);
-        itemDAO.save(item3);
-        Product item4 = new Product("Ski mask","beddazzeld ski mask for your next robbery","urltoimage",35,2);
-        itemDAO.save(item4);
+        Category shoes = new Category();
+        shoes.setName("shoes");
+        shoes.setSubCategory("nikes");
+        shoes.setSubCategory("addidas");
+        catDAO.save(shoes);
+        Category airmax = new Category();
+        airmax.setName("airmax");
+        airmax.setParent(shoes);
+        catDAO.save(airmax);
+        shoes = catDAO.findById(1L).get();
+        System.out.println(shoes);
+
+
+
+
+
+
+
+
+
+
+
         Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
         User user = new User("Candelario","Aguilar","candelarioa42@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", "ADMIN",address);
         userRepository.save(user);
