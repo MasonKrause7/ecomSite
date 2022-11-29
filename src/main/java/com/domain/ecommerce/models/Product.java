@@ -2,70 +2,81 @@ package com.domain.ecommerce.models;
 
 import javax.persistence.*;
 
+/**
+ * @author Candelario Aguilar Torres
+ **/
 @Entity
-@Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
-   
-    private Long categoryId;
-    private String productName;
-    private String productDescription;
-    private String imageURL;
+    private Long id;
 
-    public Product() {
+
+    public String getName() {
+        return name;
     }
 
-    public Product(Long productId, Long categoryId, String productName, String productDescription, String imageURL) {
-        this.productId = productId;
-        this.categoryId = categoryId;
-        this.productName = productName;
-        this.productDescription = productDescription;
-        this.imageURL = imageURL;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getProductId() {
-        return productId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getProductName() {
-        return productName;
+    public double getPrice() {
+        return price;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public String getProductDescription() {
-        return productDescription;
+    @ManyToOne
+    @JoinColumn(name = "categoryid")
+    private Category category;
+
+    private String name;
+    private String description;
+    private String imageUrl;
+
+    public Product(String name, String description, String imageUrl, double price) {
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.price = price;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
+    private double price;
 
-    public String getImageURL() {
-        return imageURL;
-    }
+    public Product() {}
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setId(Long id) {
+        this.id = id;
     }
 
 
+    public Long getId() {
+        return id;
+    }
 
+    public Category getCategory() {
+        return category;
+    }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

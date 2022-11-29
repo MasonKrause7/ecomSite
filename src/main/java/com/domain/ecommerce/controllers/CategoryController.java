@@ -1,6 +1,7 @@
 package com.domain.ecommerce.controllers;
 
 import com.domain.ecommerce.models.Category;
+import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -45,11 +46,24 @@ public class CategoryController {
 
 
     @DeleteMapping("/delete-category-by-id/{id}")
-    public ResponseEntity<Object> deleteItem(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteCategory(@PathVariable Long id) {
 
         categoryService.deleteCategoryById(id);
         return ResponseEntity.accepted().body("success");
     }
+
+    @PostMapping("/create-product/{categoryid}/productid")
+    public ResponseEntity<Product> createItem(@RequestBody Product product, @PathVariable Long categoryid) {
+
+        return ResponseEntity.created(null).body(categoryService.addProduct(categoryid,product));
+    }
+
+    @DeleteMapping("/delete-product/{categoryid}/{productid}")
+    public ResponseEntity<Object> deleteProduct(@PathVariable Long categoryid,@PathVariable Long productid) {
+        categoryService.deleteProduct(categoryid,productid);
+                return ResponseEntity.accepted().body("success");
+    }
+
 
 
 }

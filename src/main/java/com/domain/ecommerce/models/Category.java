@@ -20,13 +20,15 @@ public class Category {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
-
 
 
     @OneToMany(mappedBy = "parentCategory",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Category> subCategory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<Product> productList = new ArrayList<>();
 
     public Category() {
 
@@ -61,6 +63,23 @@ public class Category {
         return category;
     }
 
+    public Product setProduct(Product product) {
+        product.setCategory(this);
+        this.productList.add(product);
+        return product;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Product> getProducts() {
+        return this.productList;
+    }
     @Override
     public String toString() {
 

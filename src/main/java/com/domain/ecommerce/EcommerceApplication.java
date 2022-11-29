@@ -1,11 +1,10 @@
 package com.domain.ecommerce;
 
 import com.domain.ecommerce.models.Category;
+import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.repository.CategoryRepository;
-import com.domain.ecommerce.repository.ProductRepository;
 import com.domain.ecommerce.repository.UserRepository;
 import com.domain.ecommerce.models.Address;
-import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.security.RSAKeyProperties;
 import com.domain.ecommerce.service.EmailService;
@@ -17,7 +16,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 
 
 @Transactional
@@ -31,8 +29,7 @@ public class EcommerceApplication  implements CommandLineRunner {
 
     @Autowired
     private CategoryRepository catDAO;
-    @Autowired
-    private ProductRepository itemDAO;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -51,8 +48,10 @@ public class EcommerceApplication  implements CommandLineRunner {
         Category airmax = new Category();
         airmax.setName("airmax");
         airmax.setParent(shoes);
+        airmax.setProduct(new Product("airmax95","comfy airmax show","www.imageurl.com",109.99));
         catDAO.save(airmax);
         shoes = catDAO.findById(1L).get();
+
         System.out.println(shoes);
 
 

@@ -1,6 +1,7 @@
 package com.domain.ecommerce.service;
 
 import com.domain.ecommerce.models.Category;
+import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,26 @@ public class CategoryService {
         category.setName(name);
         categoryRepository.save(category);
         return category;
+    }
+
+    public Product addProduct(Long categoryid,Product product) {
+       Category category = findCategoryById(categoryid);
+       category.setProduct(product);
+       categoryRepository.save(category);
+       return product;
+
+    }
+    public void deleteProduct(Long categoryid, Long productid) {
+        Category category = findCategoryById(categoryid);
+        List<Product> productList = category.getProducts();
+        for(Product product: productList) {
+            if(product.getId().equals(productid)) {
+                productList.remove(product);
+                categoryRepository.save(category);
+            }
+        }
+
+
     }
 
     public List<Category> getAllCategories() {
