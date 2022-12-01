@@ -3,14 +3,15 @@ package com.domain.ecommerce.controllers;
 import com.domain.ecommerce.models.Category;
 import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.service.CategoryService;
+import com.nimbusds.jose.JWSVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Candelario Aguilar Torres
@@ -20,14 +21,17 @@ import java.util.Optional;
 @CrossOrigin("*")
 public class CategoryController {
     private CategoryService categoryService;
-
+    private JWSVerifier jwsverifier;
     @Autowired
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService, JWSVerifier jwsverifier) {
         this.categoryService = categoryService;
+
+        this.jwsverifier = jwsverifier;
     }
 
     @GetMapping("/all-categories")
     public ResponseEntity<List<Category>> getAllCategories() {
+        System.out.println("token successfully authenticated");
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
@@ -64,6 +68,13 @@ public class CategoryController {
                 return ResponseEntity.accepted().body("success");
     }
 
+    @GetMapping("/uploadimage")
+        public String uploadimage(MultipartFile file) {
+        System.out.println("success");
+        return "success";
+        }
+    }
 
 
-}
+
+

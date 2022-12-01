@@ -13,6 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.Base64;
 import java.util.HashMap;
@@ -57,10 +60,14 @@ public class AuthenticationController {
 
 
     @PostMapping("/signin")
-    public ResponseEntity<Object> signIn(Authentication authentication) {
+    public ResponseEntity<Object> signIn(Authentication authentication,HttpServletResponse response) {
         System.out.println("LOGGING IN");
         Map<String, String> tokens = jwtTokenService.getTokens(authentication);
-        return ResponseEntity.accepted().body(tokens);
+        Cookie cookie = new Cookie("accesstoken",tokens.get("accessToken"));
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+
+        return ResponseEntity.accepted().body("success");
     }
 
     @PostMapping("/refresh")

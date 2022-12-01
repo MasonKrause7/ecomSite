@@ -1,4 +1,7 @@
 package com.domain.ecommerce.security;
+import com.domain.ecommerce.utils.JwtTokenAuthenticationFilter;
+import com.nimbusds.jose.JWSVerifier;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -26,7 +29,7 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -48,15 +51,14 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
                .exceptionHandling((exception) -> exception.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()).accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
                .authorizeRequests().mvcMatchers("/api/users/signup").permitAll()
                .mvcMatchers("/forgot-password").permitAll()
-               .mvcMatchers("/h2-console/*").permitAll()// need in order to view h2 database console while security is enabled.
-               .mvcMatchers("/api/categories").permitAll()
-               .mvcMatchers("/api/users/signin").authenticated()
                .mvcMatchers("/api/employees/**").hasAuthority("SCOPE_ADMIN")
+               .anyRequest().authenticated()
                .and()
                .headers().frameOptions().sameOrigin()// need in order to view h2 database console while security is enabled.
                .and()
                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()//disable because we are using jwt's not sessions
-               .httpBasic().and()
+               .httpBasic()
+               .and().addFilterBefore(jwtTokenAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class)
                .build();
    }
 
@@ -83,5 +85,14 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
     return new NimbusJwtEncoder(jwks);
     }
 
+    @Bean
+    JWSVerifier jwsVerifier() {
+        return new RSASSAVerifier(rsaKeys.publicKey());
+    }
+
+    @Bean
+    JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter() {
+        return new JwtTokenAuthenticationFilter();
+    }
 
 }

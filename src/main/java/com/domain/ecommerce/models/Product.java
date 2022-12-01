@@ -1,11 +1,16 @@
 package com.domain.ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import javax.persistence.*;
 
 /**
  * @author Candelario Aguilar Torres
  **/
 @Entity
+
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +26,7 @@ public class Product {
     }
 
     public String getDescription() {
+      
         return description;
     }
 
@@ -46,6 +52,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "categoryid")
+    @JsonBackReference
     private Category category;
 
     private String name;

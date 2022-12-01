@@ -1,5 +1,7 @@
 package com.domain.ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -21,12 +23,13 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "parent_category_id")
+    @JsonBackReference
     private Category parentCategory;
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "parentCategory",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Category> subCategory = new ArrayList<>();
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, orphanRemoval = true)
    private List<Product> productList = new ArrayList<>();
 
