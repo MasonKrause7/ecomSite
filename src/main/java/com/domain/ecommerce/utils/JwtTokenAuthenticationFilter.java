@@ -49,7 +49,10 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                throw new RuntimeException(e);
            }
 
+       } else {
+           filterChain.doFilter(request,response);
        }
+
 
     }
 

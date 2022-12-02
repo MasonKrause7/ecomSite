@@ -63,10 +63,14 @@ public class AuthenticationController {
     public ResponseEntity<Object> signIn(Authentication authentication,HttpServletResponse response) {
         System.out.println("LOGGING IN");
         Map<String, String> tokens = jwtTokenService.getTokens(authentication);
-        Cookie cookie = new Cookie("accesstoken",tokens.get("accessToken"));
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
+        Cookie accessTokenCookie = new Cookie("accesstoken",tokens.get("accesstoken"));
+        accessTokenCookie.setHttpOnly(true);
 
+        Cookie refreshTokenCookie = new Cookie("refreshtoken",tokens.get("accesstoken"));
+        refreshTokenCookie.setHttpOnly(true);
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
+        System.out.println("cookie added to response");
         return ResponseEntity.accepted().body("success");
     }
 
