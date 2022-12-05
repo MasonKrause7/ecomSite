@@ -1,13 +1,10 @@
 package com.domain.ecommerce.service;
 
-import com.domain.ecommerce.exceptions.authenticationControllerExceptions.AuthenticationControllerException;
-import com.domain.ecommerce.models.RefreshToken;
-import com.domain.ecommerce.models.User;
-import com.domain.ecommerce.repository.UserRepository;
 import com.domain.ecommerce.utils.JwtTokenUtil;
+import com.domain.ecommerce.utils.TokenIdentifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import java.time.Instant;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,11 +18,9 @@ import java.util.Map;
 @Service
 public class JwtTokenService {
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserRepository userRepository;
 
-    public JwtTokenService(JwtTokenUtil jwtTokenUtil, UserRepository userRepository) {
+    public JwtTokenService(JwtTokenUtil jwtTokenUtil) {
         this.jwtTokenUtil = jwtTokenUtil;
-        this.userRepository = userRepository;
     }
   /*
   Get access and refresh token
@@ -34,43 +29,13 @@ public class JwtTokenService {
         Map<String,String> tokenMap = new HashMap<>();
         String accessToken = jwtTokenUtil.generateToken(authentication);
         String refreshToken = jwtTokenUtil.generateRefreshToken(authentication);
-        tokenMap.put("accesstoken",accessToken);
-        tokenMap.put("refreshtoken",refreshToken);
-        saveRefreshToken(authentication);
+        tokenMap.put(TokenIdentifier.ACESSTOKEN,accessToken);
+        tokenMap.put(TokenIdentifier.REFRESHTOKEN,refreshToken);
         return tokenMap;
 
     }
 
-    /*
-    creates a "refresh token". This object just stores information about the actual JWT refresh token such as time and the user it belongs to. used to compare expiration dates of
-    the actual JWT refresh token and what's in the database. when a new JWT Refresh Token is created, a new object of type RefreshToken() is created and stored in the database.
-     */
-    private void saveRefreshToken(Authentication authentication) {
-       User user = userRepository.findUserByEmail(authentication.getName()).get();
-       user.setRefreshToken(new RefreshToken());
-       userRepository.save(user);
 
-
-    }
-
-
-
-    public String refreshAccessToken(Authentication authentication) throws AuthenticationControllerException{
-        User user = userRepository.findUserByEmail(authentication.getName()).get();
-        System.out.println(authentication.getName());
-        Instant refreshTokeExpire = user.getRefreshToken().getExpiration();
-        System.out.println(refreshTokeExpire);
-        if(refreshTokeExpire != null && refreshTokeExpire.isAfter(Instant.now())) {
-            return jwtTokenUtil.generateToken(authentication);
-        }else throw new AuthenticationControllerException("REFRESH TOKEN IS EXPIRED OR DOES NOT EXIST");
-
-    }
-
-    public String getTempToken(User user) {
-        user.setRefreshToken(new RefreshToken());
-        userRepository.save(user);
-        return jwtTokenUtil.generateTempToken(user);
-    }
 
 
 }

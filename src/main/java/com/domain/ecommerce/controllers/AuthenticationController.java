@@ -5,11 +5,13 @@ import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.service.AuthenticationService;
 import com.domain.ecommerce.service.EmailService;
 import com.domain.ecommerce.service.JwtTokenService;
+import com.domain.ecommerce.utils.TokenIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,10 +34,13 @@ public class AuthenticationController {
     private final JwtTokenService jwtTokenService;
     private final EmailService emailService;
 
+    private String accessToken = TokenIdentifier.ACESSTOKEN;
+    private String refreshToken = TokenIdentifier.REFRESHTOKEN;
+
 
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, JwtTokenService jwtTokenService, EmailService emailService, PasswordEncoder bCryptPasswordEncoder) {
+    public AuthenticationController(AuthenticationService authenticationService, JwtTokenService jwtTokenService, EmailService emailService) {
         this.authenticationService = authenticationService;
 
         this.jwtTokenService = jwtTokenService;
@@ -61,40 +66,42 @@ public class AuthenticationController {
 
     @PostMapping("/signin")
     public ResponseEntity<Object> signIn(Authentication authentication,HttpServletResponse response) {
-        System.out.println("LOGGING IN");
-        Map<String, String> tokens = jwtTokenService.getTokens(authentication);
-        Cookie accessTokenCookie = new Cookie("accesstoken",tokens.get("accesstoken"));
-        accessTokenCookie.setHttpOnly(true);
-
-        Cookie refreshTokenCookie = new Cookie("refreshtoken",tokens.get("accesstoken"));
-        refreshTokenCookie.setHttpOnly(true);
-        response.addCookie(accessTokenCookie);
-        response.addCookie(refreshTokenCookie);
-        System.out.println("cookie added to response");
+        generateTokenCookie(authentication, response);
+        System.out.println("success");
         return ResponseEntity.accepted().body("success");
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Object> logout(HttpServletResponse response) {
+        Cookie accessTokenCookie = new Cookie(accessToken,"");
+        accessTokenCookie.setHttpOnly(true);
+        accessTokenCookie.setPath("/api");
+        accessTokenCookie.setMaxAge(0);
+        response.addCookie(accessTokenCookie);
+
+        Cookie refreshTokenCookie = new Cookie(refreshToken,"");
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setPath("/api/users/refresh");
+        refreshTokenCookie.setMaxAge(0);
+        response.addCookie(refreshTokenCookie);
+       return ResponseEntity.accepted().body("logged out");
+    }
+
+
+
     @PostMapping("/refresh")
-    public ResponseEntity<Object> refreshToken(Authentication authentication) throws AuthenticationControllerException {
+    public ResponseEntity<Object> refreshToken(Authentication authentication, HttpServletResponse response) {
 
-        try {
-            String token = jwtTokenService.refreshAccessToken(authentication);
-            return ResponseEntity.accepted().body(token);
-        } catch (RuntimeException e) {
-            throw new AuthenticationControllerException("Refresh token is expired or does not exist");
-        }
-
+        generateTokenCookie(authentication, response);
+        return ResponseEntity.accepted().body("success");
 
     }
-    /*
-    does not require jwt token for access.
 
-     */
     @PostMapping("/forgot-password")
     public ResponseEntity<Object> forgotPassword(@RequestBody String email) throws AuthenticationControllerException {
         if (authenticationService.userExist(email)) {
-            String tempToken = jwtTokenService.getTempToken(authenticationService.findUserByEmail(email));
-            emailService.sendMessage(email, tempToken);
+         //   String tempToken = jwtTokenService.getTempToken(authenticationService.findUserByEmail(email));
+           // emailService.sendMessage(email, tempToken);
             Map<String, String> respMap = new HashMap<>();
             respMap.put("msg", "email sent");
             return ResponseEntity.ok(respMap);
@@ -112,6 +119,20 @@ public class AuthenticationController {
         Map<String, String> tokens = jwtTokenService.getTokens(authentication);
         return ResponseEntity.ok(tokens);
 
+    }
+
+    private void generateTokenCookie(Authentication authentication, HttpServletResponse response) {
+        Map<String, String> tokens = jwtTokenService.getTokens(authentication);
+        Cookie accessTokenCookie = new Cookie(accessToken,tokens.get(accessToken));
+        accessTokenCookie.setHttpOnly(true);
+        accessTokenCookie.setPath("/api");
+
+        Cookie refreshTokenCookie = new Cookie(refreshToken,tokens.get(refreshToken));
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setPath("/api/users/refresh");
+
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
     }
 
 }

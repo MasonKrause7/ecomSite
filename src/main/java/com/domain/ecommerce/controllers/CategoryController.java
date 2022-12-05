@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,17 +22,15 @@ import java.util.List;
 @CrossOrigin("*")
 public class CategoryController {
     private CategoryService categoryService;
-    private JWSVerifier jwsverifier;
     @Autowired
-    public CategoryController(CategoryService categoryService, JWSVerifier jwsverifier) {
+    public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
 
-        this.jwsverifier = jwsverifier;
     }
 
     @GetMapping("/all-categories")
     public ResponseEntity<List<Category>> getAllCategories() {
-        System.out.println("token successfully authenticated");
+
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 

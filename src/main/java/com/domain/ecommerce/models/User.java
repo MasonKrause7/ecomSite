@@ -28,18 +28,8 @@ public class User  {
 
     private String password;
     private String phoneNumber;
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "token_id",referencedColumnName = "token_id")
-    private RefreshToken refreshToken;
 
 
-    public RefreshToken getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(RefreshToken refreshToken) {
-        this.refreshToken = refreshToken;
-    }
 
 
 
