@@ -11,6 +11,9 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +24,12 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 @Configuration
@@ -41,15 +50,15 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
        return httpSecurity
                .csrf().disable()
                .cors().and()
-               .authorizeRequests().mvcMatchers("/api/users/signup").permitAll()
+               .authorizeRequests().mvcMatchers("/api/users/signup").anonymous()
                .mvcMatchers("/api/users/forgot-password").permitAll()
                .mvcMatchers("/api/users/logout").permitAll()
-               .mvcMatchers("/api/categories/all-categories").hasAuthority("ADMIN")
+               .mvcMatchers("/api/categories/**").hasAuthority("ADMIN")
                .mvcMatchers("/api/employees/**").hasAuthority("ADMIN")
                .anyRequest().authenticated()
                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                .and()
-               .httpBasic().and()//c
+               .httpBasic().and().cors().and()
                .addFilterBefore(new JwtCookieAuthenticationFilter(jwsVerifier(),jwtDecoder()),BasicAuthenticationFilter.class)// ustom filter must use new must be created, do not add bean to spring context!
                .build();
    }

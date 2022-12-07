@@ -19,7 +19,6 @@ import java.util.List;
  **/
 @RestController//ENSURE TO ADD AUTHENICATION FOR POST METHODS
 @RequestMapping("/api/categories")
-@CrossOrigin("*")
 public class CategoryController {
     private CategoryService categoryService;
     @Autowired
@@ -30,7 +29,7 @@ public class CategoryController {
 
     @GetMapping("/all-categories")
     public ResponseEntity<List<Category>> getAllCategories() {
-
+        System.out.println("getting all categories");
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 

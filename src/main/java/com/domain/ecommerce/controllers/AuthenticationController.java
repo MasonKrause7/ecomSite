@@ -9,13 +9,12 @@ import com.domain.ecommerce.utils.TokenIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
@@ -27,7 +26,7 @@ Handles login and registration of users. All users have a role of "USER".
  */
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:8000",allowCredentials = "true")
 public class AuthenticationController {
     Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthenticationService authenticationService;
@@ -67,21 +66,23 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<Object> signIn(Authentication authentication,HttpServletResponse response) {
         generateTokenCookie(authentication, response);
-        System.out.println("success");
-        return ResponseEntity.accepted().body("success");
+        System.out.println(authentication.getName() + " is logged in");
+        return ResponseEntity.accepted().body(authentication.getName() + " is logged in");
     }
 
     @PostMapping("/logout")
     public ResponseEntity<Object> logout(HttpServletResponse response) {
         Cookie accessTokenCookie = new Cookie(accessToken,"");
         accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setPath("/api");
+        accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(0);
+        accessTokenCookie.setSecure(false);
         response.addCookie(accessTokenCookie);
 
         Cookie refreshTokenCookie = new Cookie(refreshToken,"");
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setPath("/api/users/refresh");
+        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setPath("/");
         refreshTokenCookie.setMaxAge(0);
         response.addCookie(refreshTokenCookie);
        return ResponseEntity.accepted().body("logged out");
@@ -123,13 +124,17 @@ public class AuthenticationController {
 
     private void generateTokenCookie(Authentication authentication, HttpServletResponse response) {
         Map<String, String> tokens = jwtTokenService.getTokens(authentication);
+
         Cookie accessTokenCookie = new Cookie(accessToken,tokens.get(accessToken));
         accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setPath("/api");
+        accessTokenCookie.setSecure(false);
+        accessTokenCookie.setPath("/");
+
 
         Cookie refreshTokenCookie = new Cookie(refreshToken,tokens.get(refreshToken));
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setPath("/api/users/refresh");
+        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setPath("/");
 
         response.addCookie(accessTokenCookie);
         response.addCookie(refreshTokenCookie);
