@@ -72,14 +72,14 @@ public class JwtTokenUtil {
 /*
 returns a temporary token to be used when a password reset is requested
  */
-    public String generateTempToken(User user) {
+    public String generateTempToken(User user, int duration) {
         Instant now = Instant.now();
         String scope = user.getAuthority();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(10,ChronoUnit.MINUTES))
+                .expiresAt(now.plus(duration,ChronoUnit.MINUTES))
                 .subject(user.getEmail())
                 .claim("scope",scope)
                 .build();

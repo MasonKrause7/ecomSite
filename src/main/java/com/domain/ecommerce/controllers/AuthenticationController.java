@@ -76,13 +76,11 @@ public class AuthenticationController {
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setMaxAge(0);
-        accessTokenCookie.setSecure(false);
         response.addCookie(accessTokenCookie);
 
         Cookie refreshTokenCookie = new Cookie(refreshToken,"");
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(false);
-        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setPath("/api/users/refresh");
         refreshTokenCookie.setMaxAge(0);
         response.addCookie(refreshTokenCookie);
        return ResponseEntity.accepted().body("logged out");
@@ -94,15 +92,16 @@ public class AuthenticationController {
     public ResponseEntity<Object> refreshToken(Authentication authentication, HttpServletResponse response) {
 
         generateTokenCookie(authentication, response);
-        return ResponseEntity.accepted().body("success");
+        System.out.println("Tokens refreshed");
+        return ResponseEntity.accepted().body("Tokens Refreshed");
 
     }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Object> forgotPassword(@RequestBody String email) throws AuthenticationControllerException {
         if (authenticationService.userExist(email)) {
-         //   String tempToken = jwtTokenService.getTempToken(authenticationService.findUserByEmail(email));
-           // emailService.sendMessage(email, tempToken);
+           String tempToken = jwtTokenService.getTempToken(authenticationService.findUserByEmail(email));
+            emailService.sendMessage(email, tempToken);
             Map<String, String> respMap = new HashMap<>();
             respMap.put("msg", "email sent");
             return ResponseEntity.ok(respMap);
@@ -112,13 +111,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Object> resetPassword(@RequestBody String newPassword,Authentication authentication) {
+    public ResponseEntity<Object> resetPassword(@RequestBody String newPassword,Authentication authentication,HttpServletResponse response) {
         String email = authentication.getName();
         byte[] bytePassword = Base64.getDecoder().decode(newPassword);
         String password = new String(bytePassword);
         authenticationService.setPassword(email,password);
-        Map<String, String> tokens = jwtTokenService.getTokens(authentication);
-        return ResponseEntity.ok(tokens);
+        generateTokenCookie(authentication,response);
+        System.out.println("Password Successfully Reset");
+        return ResponseEntity.ok("Password Successfully Reset");
 
     }
 
@@ -127,14 +127,12 @@ public class AuthenticationController {
 
         Cookie accessTokenCookie = new Cookie(accessToken,tokens.get(accessToken));
         accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(false);
         accessTokenCookie.setPath("/");
 
 
         Cookie refreshTokenCookie = new Cookie(refreshToken,tokens.get(refreshToken));
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(false);
-        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setPath("/api/users/refresh");
 
         response.addCookie(accessTokenCookie);
         response.addCookie(refreshTokenCookie);

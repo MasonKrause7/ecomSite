@@ -1,5 +1,6 @@
 package com.domain.ecommerce.service;
 
+import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.utils.JwtTokenUtil;
 import com.domain.ecommerce.utils.TokenIdentifier;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,11 @@ public class JwtTokenService {
         tokenMap.put(TokenIdentifier.REFRESHTOKEN,refreshToken);
         return tokenMap;
 
+    }
+
+    public String getTempToken(User user) {
+
+        return jwtTokenUtil.generateTempToken(user,10);
     }
 
 
