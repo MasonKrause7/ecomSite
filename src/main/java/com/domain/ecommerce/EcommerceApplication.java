@@ -69,6 +69,10 @@ public class EcommerceApplication  implements CommandLineRunner {
         User user2 = new User("Frank","Guzman","frankg@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.USER.name(), address2);
         userRepository.save(user2);
 
+        Address address3 = new Address("134","vista st","nashiville","tn",93445,"United States");
+        User user3 = new User("Jeff","Liberty","jliberty@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address3);
+        userRepository.save(user3);
+
 
 
 
