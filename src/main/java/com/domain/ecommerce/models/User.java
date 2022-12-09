@@ -63,7 +63,7 @@ public class User  {
     @JsonBackReference
     @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
-            name = "address",
+            name = "user_address",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "address_id"))
     private Set<Address> address = new HashSet<>();
