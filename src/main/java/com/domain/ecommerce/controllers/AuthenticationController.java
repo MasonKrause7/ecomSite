@@ -85,7 +85,7 @@ public class AuthenticationController {
         Cookie refreshTokenCookie = new Cookie(refreshToken,null);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setPath(refreshTokenPath);
-        refreshTokenCookie.setMaxAge(0);
+        refreshTokenCookie.setMaxAge(0);//deletes cookie from client
 
 
         response.addCookie(accessTokenCookie);
