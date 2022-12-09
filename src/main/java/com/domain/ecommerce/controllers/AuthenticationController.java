@@ -77,11 +77,16 @@ public class AuthenticationController {
         Cookie accessTokenCookie = new Cookie(accessToken,null);
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setPath(accessTokenPath);
+        accessTokenCookie.setMaxAge(0);
+
+
 
 
         Cookie refreshTokenCookie = new Cookie(refreshToken,null);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setPath(refreshTokenPath);
+        refreshTokenCookie.setMaxAge(0);
+
 
         response.addCookie(accessTokenCookie);
         response.addCookie(refreshTokenCookie);
