@@ -2,6 +2,7 @@ package com.domain.ecommerce.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.context.annotation.Profile;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.Set;
  * @author Candelario Aguilar Torres
  **/
 @Entity
+
 public class Category {
 
     @Id

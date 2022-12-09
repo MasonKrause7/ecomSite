@@ -1,6 +1,7 @@
 package com.domain.ecommerce.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 
