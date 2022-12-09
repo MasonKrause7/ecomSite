@@ -5,6 +5,7 @@ import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.service.CategoryService;
 import com.nimbusds.jose.JWSVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import java.util.List;
  **/
 @RestController//ENSURE TO ADD AUTHENICATION FOR POST METHODS
 @RequestMapping("/api/categories")
+@Profile("personal-dev")
 public class CategoryController {
     private CategoryService categoryService;
     @Autowired

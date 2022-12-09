@@ -1,11 +1,8 @@
 package com.domain.ecommerce;
 
-import com.domain.ecommerce.models.Category;
-import com.domain.ecommerce.models.Product;
+import com.domain.ecommerce.models.*;
 import com.domain.ecommerce.repository.CategoryRepository;
 import com.domain.ecommerce.repository.UserRepository;
-import com.domain.ecommerce.models.Address;
-import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.security.RSAKeyProperties;
 import com.domain.ecommerce.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
@@ -66,11 +62,11 @@ public class EcommerceApplication  implements CommandLineRunner {
 
 
         Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
-        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", "ADMIN",address);
+        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.ADMIN.name(),address);
         userRepository.save(user);
 
         Address address2 = new Address("134","main st","clarksville","tn",93445,"United States");
-        User user2 = new User("Frank","Guzman","frankg@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", "USER",address2);
+        User user2 = new User("Frank","Guzman","frankg@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.USER.name(), address2);
         userRepository.save(user2);
 
 
