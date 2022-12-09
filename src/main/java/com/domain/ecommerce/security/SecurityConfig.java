@@ -54,7 +54,6 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
                .mvcMatchers("/api/users/forgot-password").permitAll()
                .mvcMatchers("/api/users/logout").permitAll()
                .mvcMatchers("/api/categories/**").hasAuthority("ADMIN")
-               .mvcMatchers("/api/employees/**").hasAuthority("ADMIN")
                .anyRequest().authenticated()
                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                .and()

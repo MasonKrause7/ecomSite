@@ -33,8 +33,10 @@ public class AuthenticationController {
     private final JwtTokenService jwtTokenService;
     private final EmailService emailService;
 
-    private String accessToken = TokenIdentifier.ACESSTOKEN;
-    private String refreshToken = TokenIdentifier.REFRESHTOKEN;
+    private final String accessToken = TokenIdentifier.ACESSTOKEN;
+    private final String refreshToken = TokenIdentifier.REFRESHTOKEN;
+    private final String accessTokenPath = "/";
+    private final String refreshTokenPath = "/api/users/refresh";
 
 
 
@@ -72,16 +74,16 @@ public class AuthenticationController {
 
     @PostMapping("/logout")
     public ResponseEntity<Object> logout(HttpServletResponse response) {
-        Cookie accessTokenCookie = new Cookie(accessToken,"");
+        Cookie accessTokenCookie = new Cookie(accessToken,null);
         accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(0);
-        response.addCookie(accessTokenCookie);
+        accessTokenCookie.setPath(accessTokenPath);
 
-        Cookie refreshTokenCookie = new Cookie(refreshToken,"");
+
+        Cookie refreshTokenCookie = new Cookie(refreshToken,null);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setPath("/api/users/refresh");
-        refreshTokenCookie.setMaxAge(0);
+        refreshTokenCookie.setPath(refreshTokenPath);
+
+        response.addCookie(accessTokenCookie);
         response.addCookie(refreshTokenCookie);
        return ResponseEntity.accepted().body("logged out");
     }
@@ -127,19 +129,22 @@ public class AuthenticationController {
 
         Cookie accessTokenCookie = new Cookie(accessToken,tokens.get(accessToken));
         accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setPath("/");
+        accessTokenCookie.setPath(accessTokenPath);
+
 
         Cookie publicCookie = new Cookie("logIn", "loggedIn");
         publicCookie.setHttpOnly(false);
-        publicCookie.setPath("/");
+        publicCookie.setPath(accessTokenPath);
 
         Cookie refreshTokenCookie = new Cookie(refreshToken,tokens.get(refreshToken));
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setPath("/api/users/refresh");
+        refreshTokenCookie.setPath(refreshTokenPath);
 
         response.addCookie(accessTokenCookie);
         response.addCookie(refreshTokenCookie);
         response.addCookie(publicCookie);
     }
+
+
 
 }
