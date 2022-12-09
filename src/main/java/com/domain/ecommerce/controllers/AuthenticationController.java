@@ -26,7 +26,7 @@ Handles login and registration of users. All users have a role of "USER".
  */
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:8000",allowCredentials = "true")
+
 public class AuthenticationController {
     Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthenticationService authenticationService;
