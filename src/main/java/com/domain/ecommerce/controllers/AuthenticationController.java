@@ -129,7 +129,7 @@ public class AuthenticationController {
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setPath("/");
 
-        Cookie publicCookie = new Cookie("logIn", "logged in");
+        Cookie publicCookie = new Cookie("logIn", "loggedIn");
 
         Cookie refreshTokenCookie = new Cookie(refreshToken,tokens.get(refreshToken));
         refreshTokenCookie.setHttpOnly(true);
