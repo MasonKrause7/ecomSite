@@ -3,6 +3,7 @@ package com.domain.ecommerce.service;
 import com.domain.ecommerce.models.Authorites;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,14 +15,17 @@ import java.util.List;
 @Service
 public class AdminService {
     private final UserRepository userRepository;
-    public AdminService(UserRepository userRepository) {
+    private final PasswordEncoder bcryptpasswordEncoder;
+    public AdminService(UserRepository userRepository, PasswordEncoder bcryptpasswordEncoder) {
         this.userRepository = userRepository;
+        this.bcryptpasswordEncoder = bcryptpasswordEncoder;
     }
 
     public String createEmployee(User employee)  {
 
 
-            employee.setPassword(Authorites.ADMIN.name());
+            employee.setAuthority(Authorites.EMPLOYEE.name());
+            employee.setPassword(bcryptpasswordEncoder.encode(employee.getPassword()));
             userRepository.save(employee);
             return "successfully created employee";
 
