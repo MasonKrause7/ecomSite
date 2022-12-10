@@ -47,7 +47,7 @@ public class EmailService {
                     "    \n" +
                     "              <p style=\"margin-bottom: 50px;font-size:16px;\">You have requested a password reset for your Mobile Merchants account associated with the email " + to + ". Visit the link below to reset your password.</p>\n" +
                     "              <div>\n" +
-                    "                <a href style=\"text-decoration: none; font-size: 16px;border-radius:5px;background-color:#14468a; border: none; padding-top:15px;padding-bottom:15px;padding-left:35px;padding-right:35px;color: white;font-family:Helvetica\" type=\"button\" href=http://127.0.0.1:8000/Account/resetpassword.html??token=" + tempToken +">Reset Password</a>\n" +
+                    "                <a href style=\"text-decoration: none; font-size: 16px;border-radius:5px;background-color:#14468a; border: none; padding-top:15px;padding-bottom:15px;padding-left:35px;padding-right:35px;color: white;font-family:Helvetica\" type=\"button\" href=http://localhost:8000/Account/forgotpasswordreset.html??token=" + tempToken +">Reset Password</a>\n" +
                     "              </div>\n" +
                     "\n" +
                     "              <div>\n" +
