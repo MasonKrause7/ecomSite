@@ -27,7 +27,7 @@ public class AdminDashboardController {
         return ResponseEntity.ok(adminService.createEmployee(employee));
     }
 
-    @GetMapping("/read_employee")
+    @GetMapping("/get_employees")
     public ResponseEntity<List<User>> readEmployee() {
 
             return ResponseEntity.ok(adminService.readAllEmployees());
@@ -35,7 +35,7 @@ public class AdminDashboardController {
 
     }
 
-    @GetMapping("/read_employee/{id}")
+    @GetMapping("/get_employees/{id}")
     public ResponseEntity<User> readEmployee(@PathVariable Long id) {
 
         return ResponseEntity.ok(adminService.readEmployee(id));
@@ -46,10 +46,7 @@ public class AdminDashboardController {
     /*
     Needs to be implements properly, currently return random string to avoid compiler error
      */
-    @PutMapping("update_employee")
-    public ResponseEntity<Object> updateEmployee() {
-        return ResponseEntity.ok(" " );
-    }
+
 
     @DeleteMapping("delete_employee/{id}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable Long id) {

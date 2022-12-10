@@ -39,10 +39,7 @@ public class AdminService {
 
     }
 
-    public String  updateEmployee() {
 
-        return "successfully updated employee";
-    }
 
     public String deleteUser(Long id) {
         userRepository.deleteById(id);
