@@ -15,7 +15,8 @@ public interface UserDTO {
   String getEmail();
   String getPhoneNumber();
   String getAuthority();
-  Set<Address> getAddress();
+  Set<AddressDTO>getAddress();
+
 
 
 

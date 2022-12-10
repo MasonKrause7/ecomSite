@@ -1,11 +1,9 @@
 package com.domain.ecommerce.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -13,7 +11,7 @@ public class Address {
     public Address(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long address_id;
+    private Long addressId;
     private String houseNumber;
     private String street;
     private String city;
@@ -33,12 +31,12 @@ public class Address {
     }
 
 
-    public Long getAddress_id() {
-        return address_id;
+    public Long getAddressId() {
+        return addressId;
     }
 
-    public void setAddress_id(Long address_id) {
-        this.address_id = address_id;
+    public void setAddressId(Long address_id) {
+        this.addressId = address_id;
     }
 
     public String getHouseNumber() {
