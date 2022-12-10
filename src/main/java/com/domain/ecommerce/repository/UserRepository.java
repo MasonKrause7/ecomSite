@@ -1,10 +1,11 @@
 package com.domain.ecommerce.repository;
 
 
+import com.domain.ecommerce.dto.UserAddressDTO;
+import com.domain.ecommerce.dto.UserDTO;
 import com.domain.ecommerce.dto.UserDTO;
 import com.domain.ecommerce.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +18,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
    List<UserDTO> findAllByAuthority(String authority);
 
-   Optional<UserDTO>findByUserId(Long id);
+   Optional<UserAddressDTO>findByUserId(Long id);
+
 
 
 

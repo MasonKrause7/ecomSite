@@ -1,5 +1,6 @@
 package com.domain.ecommerce.service;
 
+import com.domain.ecommerce.dto.UserAddressDTO;
 import com.domain.ecommerce.dto.UserDTO;
 import com.domain.ecommerce.models.Authorites;
 import com.domain.ecommerce.models.User;
@@ -43,7 +44,7 @@ public class AdminService {
 
     }
 
-    public UserDTO  findEmployeeById(Long id) {
+    public UserAddressDTO findEmployeeById(Long id) {
         return userRepository.findByUserId(id).get();
     }
 

@@ -1,5 +1,6 @@
 package com.domain.ecommerce.controllers;
 
+import com.domain.ecommerce.dto.UserAddressDTO;
 import com.domain.ecommerce.dto.UserDTO;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.service.AdminService;
@@ -37,7 +38,7 @@ public class AdminDashboardController {
     }
 
     @GetMapping("/get_employees/{id}")
-    public ResponseEntity<UserDTO> readEmployee(@PathVariable Long id) {
+    public ResponseEntity<UserAddressDTO> readEmployee(@PathVariable Long id) {
 
         return ResponseEntity.ok(adminService.findEmployeeById(id));
 
