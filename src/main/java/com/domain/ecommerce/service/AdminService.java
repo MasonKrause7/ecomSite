@@ -5,6 +5,7 @@ import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,8 +30,10 @@ public class AdminService {
     }
 
     public List<User> readAllEmployees(){
-
-        return userRepository.findAllByAuthority(Authorites.ADMIN.name());
+        List<User> users = new ArrayList<>();
+        users.addAll(userRepository.findAllByAuthority(Authorites.ADMIN.name()));
+        users.addAll(userRepository.findAllByAuthority(Authorites.EMPLOYEE.name()));
+        return users;
 
     }
 
