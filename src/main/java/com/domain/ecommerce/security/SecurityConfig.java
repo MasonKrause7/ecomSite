@@ -1,5 +1,6 @@
 package com.domain.ecommerce.security;
 import com.domain.ecommerce.jwtcookieauthentication.JwtCookieAuthenticationFilter;
+import com.domain.ecommerce.models.Authorites;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.JWK;
@@ -50,10 +51,11 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
        return httpSecurity
                .csrf().disable()
                .cors().and()
-               .authorizeRequests().mvcMatchers("/api/users/signup").anonymous()
+               .authorizeRequests().mvcMatchers("/api/users/signup").permitAll()
                .mvcMatchers("/api/users/forgot-password").permitAll()
                .mvcMatchers("/api/users/logout").permitAll()
-               .mvcMatchers("/api/categories/**").hasAuthority("ADMIN")
+               .mvcMatchers("/api/categories/**").hasAuthority(Authorites.ADMIN.name())
+               .mvcMatchers("/api/admin/**").hasAuthority(Authorites.ADMIN.name())
                .anyRequest().authenticated()
                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                .and()
