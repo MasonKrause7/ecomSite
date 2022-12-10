@@ -25,8 +25,8 @@ public User createUser(User user) {
         user.setAuthority("USER");
 
     }
+    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-   user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
 }
 public boolean userExist(String  email) {

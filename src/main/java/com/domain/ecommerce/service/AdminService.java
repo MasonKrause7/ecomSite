@@ -1,5 +1,6 @@
 package com.domain.ecommerce.service;
 
+import com.domain.ecommerce.dto.UserDTO;
 import com.domain.ecommerce.models.Authorites;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.repository.UserRepository;
@@ -33,17 +34,17 @@ public class AdminService {
 
     }
 
-    public List<User> readAllEmployees(){
-        List<User> users = new ArrayList<>();
+    public List<UserDTO> readAllEmployees(){
+        List<UserDTO> users = new ArrayList<>();
         users.addAll(userRepository.findAllByAuthority(Authorites.ADMIN.name()));
         users.addAll(userRepository.findAllByAuthority(Authorites.EMPLOYEE.name()));
         return users;
 
+
     }
 
-    public User readEmployee(Long id){
-        return userRepository.findById(id).get();
-
+    public UserDTO  findEmployeeById(Long id) {
+        return userRepository.findByUserId(id).get();
     }
 
 

@@ -1,5 +1,6 @@
 package com.domain.ecommerce.controllers;
 
+import com.domain.ecommerce.dto.UserDTO;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.service.AdminService;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class AdminDashboardController {
     }
 
     @GetMapping("/get_employees")
-    public ResponseEntity<List<User>> readEmployee() {
+    public ResponseEntity<List<UserDTO>> readEmployee() {
 
             return ResponseEntity.ok(adminService.readAllEmployees());
 
@@ -36,16 +37,13 @@ public class AdminDashboardController {
     }
 
     @GetMapping("/get_employees/{id}")
-    public ResponseEntity<User> readEmployee(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> readEmployee(@PathVariable Long id) {
 
-        return ResponseEntity.ok(adminService.readEmployee(id));
+        return ResponseEntity.ok(adminService.findEmployeeById(id));
 
 
     }
 
-    /*
-    Needs to be implements properly, currently return random string to avoid compiler error
-     */
 
 
     @DeleteMapping("delete_employee/{id}")

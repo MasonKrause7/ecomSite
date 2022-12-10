@@ -3,7 +3,6 @@ package com.domain.ecommerce.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import java.sql.Ref;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,29 +11,21 @@ public class User  {
     public User() {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long userId;
     private String firstName;
     private String lastName;
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     private String email;
-
     private String password;
     private String phoneNumber;
+    private String authority;
 
 
 
 
 
-    public User(Long user_id, String firstName, String lastName, String email, String password, String phoneNumber, Set<Address> address, String authority) {
-        this.user_id = user_id;
+    public User(Long userId, String firstName, String lastName, String email, String password, String phoneNumber, Set<Address> address, String authority) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -49,7 +40,7 @@ public class User  {
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + user_id +
+                "user_id=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
@@ -68,7 +59,7 @@ public class User  {
             inverseJoinColumns = @JoinColumn(name = "address_id"))
     private Set<Address> address = new HashSet<>();
 
-    private String authority;
+
 
 
 
@@ -84,12 +75,12 @@ public class User  {
         this.address.add(address);
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long user_id) {
+        this.userId = user_id;
     }
 
     public String getFirstName() {
@@ -109,7 +100,9 @@ public class User  {
     }
 
 
-
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getPassword() {
         return password;
@@ -147,6 +140,8 @@ public class User  {
     public void setAddress(Set<Address> address) {
         this.address = address;
     }
-
+    public String getEmail() {
+        return email;
+    }
 
 }
