@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 /*
 Springs DaoAuthenticationProvider calls an implementation of the UserDetailsService to retrieve username,password and other attributes.
@@ -17,6 +18,7 @@ define a custom implementation like the class defined below. Class must be marke
 to be registered in the context. Custom implementation must also implement the UserDetailsService interface
  */
 @Service
+@Transactional
 public class JpaUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     @Autowired

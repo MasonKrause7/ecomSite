@@ -8,6 +8,7 @@ import com.domain.ecommerce.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @author Candelario Aguilar Torres
  **/
 @Service
+@Transactional
 public class AdminService {
     private final UserRepository userRepository;
     private final PasswordEncoder bcryptpasswordEncoder;

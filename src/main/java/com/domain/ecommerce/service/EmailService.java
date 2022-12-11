@@ -8,14 +8,16 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 
 /**
  * @author Candelario Aguilar Torres
  **/
 @Service
+@Transactional
 public class EmailService {
 
-    private JavaMailSender emailSender;
+    private final JavaMailSender emailSender;
     @Autowired
     public EmailService(JavaMailSender emailSender) {
         this.emailSender = emailSender;

@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * @author Candelario Aguilar Torres
  **/
 @Service
+@Transactional
 public class CategoryService {
     private CategoryRepository categoryRepository;
 
