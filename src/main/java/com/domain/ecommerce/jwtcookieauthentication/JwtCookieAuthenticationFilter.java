@@ -52,33 +52,43 @@ public class JwtCookieAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);//if not null/ forward request to proper filter that can handle authorization
             return;
         }
-
+        System.out.println("Checking access token");
         if(checkRefreshToken(request,response,false)) {//executes only if authorization header in null: validates token and forwards request
+            System.out.println("access token is valid");
             filterChain.doFilter(request,response);
             return;
+        } else {
+            System.out.println("access token invalid");
         }
 
+        System.out.println("Checking refresh token");
         if(checkRefreshToken(request,response,true)) {//executes only if accesstoken is false.
+            System.out.println("refresh token is valid");
            filterChain.doFilter(request,response);
            return;
+        } else {
+            System.out.println("refresh token is invalid");
         }
 
         filterChain.doFilter(request,response);
 
     }
 
-    private boolean checkAccessTokenCookie( HttpServletRequest request, HttpServletResponse response,boolean isRefreshToken) {
+    private boolean checkAccessTokenCookie( HttpServletRequest request,boolean isRefreshToken) {
 
-        Cookie cookie = null;
-         if(!isRefreshToken) {
-             cookie = WebUtils.getCookie(request, TokenIdentifier.ACESSTOKEN);
-         } else {
+        Cookie cookie;
+         if(isRefreshToken) {
              cookie = WebUtils.getCookie(request,TokenIdentifier.REFRESHTOKEN);
+
+         } else {
+
+             cookie = WebUtils.getCookie(request, TokenIdentifier.ACESSTOKEN);
+
          }
 
 
         if(cookie == null) {
-
+            System.out.println("cookie is null");
             return false;
         }
 
@@ -107,6 +117,6 @@ public class JwtCookieAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean checkRefreshToken(HttpServletRequest request, HttpServletResponse response,boolean isRefreshToken) {
-        return checkAccessTokenCookie(request,response,isRefreshToken);
+        return checkAccessTokenCookie(request,isRefreshToken);
     }
 }

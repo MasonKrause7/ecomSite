@@ -24,6 +24,9 @@ generates the jwt tokens
 @Service
 public class JwtTokenUtil {
     private final JwtEncoder jwtEncoder;
+    private final int accessTokenTime = 1;
+    private final int refreshTokenTime = 2;
+    private final int tempTokenTime = 10;
 
 
 
@@ -43,7 +46,7 @@ public class JwtTokenUtil {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(15,ChronoUnit.MINUTES))
+                .expiresAt(now.plus(accessTokenTime,ChronoUnit.MINUTES))
                 .subject(authentication.getName())
                 .claim("scope",scope)
                 .build();
@@ -61,7 +64,7 @@ public class JwtTokenUtil {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(24,ChronoUnit.HOURS))
+                .expiresAt(now.plus(refreshTokenTime,ChronoUnit.HOURS))
                 .subject(authentication.getName())
                 .claim("scope",scope)
                 .build();
@@ -72,14 +75,14 @@ public class JwtTokenUtil {
 /*
 returns a temporary token to be used when a password reset is requested
  */
-    public String generateTempToken(User user, int duration) {
+    public String generateTempToken(User user) {
         Instant now = Instant.now();
         String scope = user.getAuthority();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(duration,ChronoUnit.MINUTES))
+                .expiresAt(now.plus(tempTokenTime,ChronoUnit.MINUTES))
                 .subject(user.getEmail())
                 .claim("scope",scope)
                 .build();

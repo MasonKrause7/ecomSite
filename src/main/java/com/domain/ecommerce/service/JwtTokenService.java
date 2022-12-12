@@ -38,7 +38,7 @@ public class JwtTokenService {
 
     public String getTempToken(User user) {
 
-        return jwtTokenUtil.generateTempToken(user,10);
+        return jwtTokenUtil.generateTempToken(user);
     }
 
 
