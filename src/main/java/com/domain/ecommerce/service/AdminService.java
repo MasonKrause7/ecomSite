@@ -4,6 +4,7 @@ import com.domain.ecommerce.dto.UserAddressDTO;
 import com.domain.ecommerce.dto.UserDTO;
 import com.domain.ecommerce.models.Authorites;
 import com.domain.ecommerce.models.User;
+import com.domain.ecommerce.repository.UserDTORepository;
 import com.domain.ecommerce.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,11 @@ import java.util.List;
 @Transactional
 public class AdminService {
     private final UserRepository userRepository;
+    private final UserDTORepository userDTORepository;
     private final PasswordEncoder bcryptpasswordEncoder;
-    public AdminService(UserRepository userRepository, PasswordEncoder bcryptpasswordEncoder) {
+    public AdminService(UserRepository userRepository, UserDTORepository userDTORepository, PasswordEncoder bcryptpasswordEncoder) {
         this.userRepository = userRepository;
+        this.userDTORepository = userDTORepository;
         this.bcryptpasswordEncoder = bcryptpasswordEncoder;
     }
 
@@ -39,15 +42,15 @@ public class AdminService {
 
     public List<UserDTO> readAllEmployees(){
         List<UserDTO> users = new ArrayList<>();
-        users.addAll(userRepository.findAllByAuthority(Authorites.ADMIN.name()));
-        users.addAll(userRepository.findAllByAuthority(Authorites.EMPLOYEE.name()));
+        users.addAll(userDTORepository.findAllByAuthority(Authorites.ADMIN.name()));
+        users.addAll(userDTORepository.findAllByAuthority(Authorites.EMPLOYEE.name()));
         return users;
 
 
     }
 
     public UserAddressDTO findEmployeeById(Long id) {
-        return userRepository.findByUserId(id).get();
+        return userDTORepository.findByUserId(id).get();
     }
 
 

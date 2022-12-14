@@ -1,6 +1,8 @@
 package com.domain.ecommerce.service;
 
+import com.domain.ecommerce.dto.UserAddressDTO;
 import com.domain.ecommerce.models.User;
+import com.domain.ecommerce.repository.UserDTORepository;
 import com.domain.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,11 +16,13 @@ import java.util.Optional;
 @Transactional
 public class AuthenticationService {
 private final UserRepository userRepository;
-    private final PasswordEncoder bCryptPasswordEncoder;
+private final PasswordEncoder bCryptPasswordEncoder;
+private final UserDTORepository userDTORepository;
 @Autowired
-public AuthenticationService(UserRepository userRepository, PasswordEncoder bCryptPasswordEncoder) {
+public AuthenticationService(UserRepository userRepository, PasswordEncoder bCryptPasswordEncoder, UserDTORepository userDTORepository) {
     this.userRepository = userRepository;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    this.userDTORepository = userDTORepository;
 }
 
 
@@ -42,8 +46,14 @@ public boolean userExist(String  email) {
 }
 
 public User findUserByEmail(String email) {
+
     return userRepository.findUserByEmail(email).get();
 }
+
+public UserAddressDTO findUserAddressDTObyEmail(String email) {
+    return userDTORepository.findUserByEmail(email).get();
+}
+
 
 public void setPassword(String email,String newPassword) {
     User user = findUserByEmail(email);

@@ -68,9 +68,10 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<Object> signIn(Authentication authentication,HttpServletResponse response) {
         generateTokenCookie(authentication, response);
+
         System.out.println(authentication.getName() + " is logged in");
 
-        return ResponseEntity.accepted().body(authentication.getName() + " is logged in");
+        return ResponseEntity.accepted().body(authenticationService.findUserAddressDTObyEmail(authentication.getName()));
     }
 
     @PostMapping("/logout")

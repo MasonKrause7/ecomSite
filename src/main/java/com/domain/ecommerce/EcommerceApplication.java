@@ -33,8 +33,6 @@ public class EcommerceApplication  implements CommandLineRunner {
     @Autowired
     PasswordEncoder bcryptpasswordEncoder;
 
-    @Autowired
-    EmailService email;
     @Override
     public void run(String... args) throws Exception {
         Category shoes = new Category();

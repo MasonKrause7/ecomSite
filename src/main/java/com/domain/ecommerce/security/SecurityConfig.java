@@ -104,10 +104,7 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
         return source;
     }
 
-    @Bean
-    JavaMailSender javaMailSender() {
-    return new JavaMailSenderImpl();
-    }
+
 
 
 }
