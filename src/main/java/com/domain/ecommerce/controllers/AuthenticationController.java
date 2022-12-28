@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Base64;
 import java.util.HashMap;
@@ -52,7 +53,7 @@ public class AuthenticationController {
     does not require jwt token for access
      */
     @PostMapping("/signup")
-    public ResponseEntity<Object> signUp(@RequestBody User user) throws AuthenticationControllerException {
+    public ResponseEntity<Object> signUp(@Valid @RequestBody User user) throws AuthenticationControllerException {
         boolean exists = authenticationService.userExist(user.getEmail());
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/signup").toUriString());
         if (exists) {

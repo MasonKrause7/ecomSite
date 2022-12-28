@@ -1,10 +1,8 @@
 package com.domain.ecommerce.service;
 
-import com.domain.ecommerce.models.Category;
 import com.domain.ecommerce.models.Product;
 import com.domain.ecommerce.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

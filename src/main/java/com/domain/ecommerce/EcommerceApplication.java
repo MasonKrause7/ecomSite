@@ -24,8 +24,7 @@ public class EcommerceApplication  implements CommandLineRunner {
         SpringApplication.run(EcommerceApplication.class, args);
     }
 
-    @Autowired
-    private CategoryRepository catDAO;
+
 
     @Autowired
     private UserRepository userRepository;
@@ -35,45 +34,25 @@ public class EcommerceApplication  implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Category shoes = new Category();
-        shoes.setName("shoes");
-        shoes.setSubCategory("nikes");
-        shoes.setSubCategory("addidas");
-        catDAO.save(shoes);
-        Category airmax = new Category();
-        airmax.setName("airmax");
-        airmax.setParent(shoes);
-        airmax.setProduct(new Product("airmax95","comfy airmax show","www.imageurl.com",109.99));
-        catDAO.save(airmax);
-        shoes = catDAO.findById(1L).get();
-
-        System.out.println(shoes);
 
 
 
 
-
-
-
-
-
-
-
-        Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
-        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.ADMIN.name(),address);
-        userRepository.save(user);
-
-        Address address2 = new Address("134","main st","clarksville","tn",93445,"United States");
-        User user2 = new User("Frank","Guzman","frankg@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.USER.name(), address2);
-        userRepository.save(user2);
-
-        Address address3 = new Address("134","vista st","nashiville","tn",93445,"United States");
-        User user3 = new User("Jeff","Liberty","jliberty@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address3);
-        userRepository.save(user3);
-
-        Address address4 = new Address("134","vista st","nashiville","tn",93445,"United States");
-        User user4 = new User("Mason","Krause","masongkrause@yahoo.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address4);
-        userRepository.save(user4);
+//        Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
+//        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.ADMIN.name(),address);
+//        userRepository.save(user);
+//
+//        Address address2 = new Address("134","main st","clarksville","tn",93445,"United States");
+//        User user2 = new User("Frank","Guzman","frankg@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.USER.name(), address2);
+//        userRepository.save(user2);
+//
+//        Address address3 = new Address("134","vista st","nashiville","tn",93445,"United States");
+//        User user3 = new User("Jeff","Liberty","jliberty@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address3);
+//        userRepository.save(user3);
+//
+//        Address address4 = new Address("134","vista st","nashiville","tn",93445,"United States");
+//        User user4 = new User("Mason","Krause","masongkrause@yahoo.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address4);
+//        userRepository.save(user4);
 
 
 

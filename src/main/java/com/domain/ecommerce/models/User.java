@@ -3,6 +3,9 @@ package com.domain.ecommerce.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,10 +15,14 @@ public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+    @NotBlank(message = "Field must not be empty")
     private String firstName;
+    @NotBlank(message = "Field must not be empty")
     private String lastName;
 
+    @Email(message = "Invalid Email")
     private String email;
+    @NotBlank(message = "Password field must not be blank")
     private String password;
     private String phoneNumber;
     private String authority;
