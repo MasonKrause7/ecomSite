@@ -1,10 +1,8 @@
 package com.domain.ecommerce;
 
 import com.domain.ecommerce.models.*;
-import com.domain.ecommerce.repository.CategoryRepository;
 import com.domain.ecommerce.repository.UserRepository;
 import com.domain.ecommerce.security.RSAKeyProperties;
-import com.domain.ecommerce.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -38,21 +36,21 @@ public class EcommerceApplication  implements CommandLineRunner {
 
 
 
-//        Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
-//        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.ADMIN.name(),address);
-//        userRepository.save(user);
-//
-//        Address address2 = new Address("134","main st","clarksville","tn",93445,"United States");
-//        User user2 = new User("Frank","Guzman","frankg@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.USER.name(), address2);
-//        userRepository.save(user2);
-//
-//        Address address3 = new Address("134","vista st","nashiville","tn",93445,"United States");
-//        User user3 = new User("Jeff","Liberty","jliberty@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address3);
-//        userRepository.save(user3);
-//
-//        Address address4 = new Address("134","vista st","nashiville","tn",93445,"United States");
-//        User user4 = new User("Mason","Krause","masongkrause@yahoo.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address4);
-//        userRepository.save(user4);
+        Address address = new Address("1305","20th st","oceano","ca",93445,"United States");
+        User user = new User("Candelario","Aguilar","candelarioa42@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.ADMIN.name(),address);
+        userRepository.save(user);
+
+        Address address2 = new Address("134","main st","clarksville","tn",93445,"United States");
+        User user2 = new User("Frank","Guzman","frankg@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.USER.name(), address2);
+        userRepository.save(user2);
+
+        Address address3 = new Address("134","vista st","nashiville","tn",93445,"United States");
+        User user3 = new User("Jeff","Liberty","jliberty@gmail.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address3);
+        userRepository.save(user3);
+
+        Address address4 = new Address("134","vista st","nashiville","tn",93445,"United States");
+        User user4 = new User("Mason","Krause","masongkrause@yahoo.com",bcryptpasswordEncoder.encode("password"),"8056022425", Authorites.EMPLOYEE.name(), address4);
+        userRepository.save(user4);
 
 
 

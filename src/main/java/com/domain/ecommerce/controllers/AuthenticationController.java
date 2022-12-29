@@ -6,11 +6,7 @@ import com.domain.ecommerce.service.AuthenticationService;
 import com.domain.ecommerce.service.EmailService;
 import com.domain.ecommerce.service.JwtTokenService;
 import com.domain.ecommerce.utils.TokenIdentifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +23,7 @@ Handles login and registration of users. All users have a role of "USER".
  */
 @RestController
 @RequestMapping("/api/users")
-
 public class AuthenticationController {
-    Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthenticationService authenticationService;
     private final JwtTokenService jwtTokenService;
     private final EmailService emailService;
@@ -44,7 +38,6 @@ public class AuthenticationController {
     @Autowired
     public AuthenticationController(AuthenticationService authenticationService, JwtTokenService jwtTokenService, EmailService emailService) {
         this.authenticationService = authenticationService;
-
         this.jwtTokenService = jwtTokenService;
         this.emailService = emailService;
 

@@ -51,4 +51,9 @@ public class AdminDashboardController {
     public ResponseEntity<Object> deleteEmployee(@PathVariable Long id) {
         return ResponseEntity.ok().body(adminService.deleteUser(id));
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserAddressDTO>>getAllUsers() {
+        return ResponseEntity.ok().body(adminService.findAllBy());
+    }
 }

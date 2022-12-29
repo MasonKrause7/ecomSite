@@ -14,9 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,9 +27,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
-import java.util.List;
+
 
 
 @Configuration
@@ -56,7 +52,6 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
                .authorizeRequests().mvcMatchers("/api/users/signup").permitAll()
                .mvcMatchers("/api/users/forgot-password").permitAll()
                .mvcMatchers("/api/users/logout").permitAll()
-               .mvcMatchers("/api/categories/**").hasAuthority(Authorites.ADMIN.name())
                .mvcMatchers("/api/admin/**").hasAuthority(Authorites.ADMIN.name())
                .anyRequest().authenticated()
                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -71,7 +66,10 @@ public SecurityConfig(RSAKeyProperties rsaKeys) {
        return new BCryptPasswordEncoder();
     }
 
-
+  @Bean
+  public JavaMailSender javaMailSender() {
+    return new JavaMailSenderImpl();
+  }
 
 
     @Bean

@@ -4,6 +4,7 @@ import com.domain.ecommerce.dto.UserAddressDTO;
 import com.domain.ecommerce.dto.UserDTO;
 import com.domain.ecommerce.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,5 @@ public interface UserDTORepository extends JpaRepository<User,Long> {
     List<UserDTO> findAllByAuthority(String authority);
 
     Optional<UserAddressDTO> findByUserId(Long id);
+    List<UserAddressDTO> findAllBy();
 }

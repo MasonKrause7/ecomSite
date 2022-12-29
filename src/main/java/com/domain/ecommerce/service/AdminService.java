@@ -6,6 +6,7 @@ import com.domain.ecommerce.models.Authorites;
 import com.domain.ecommerce.models.User;
 import com.domain.ecommerce.repository.UserDTORepository;
 import com.domain.ecommerce.repository.UserRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,5 +59,9 @@ public class AdminService {
     public String deleteUser(Long id) {
         userRepository.deleteById(id);
         return "successfully deleted employee";
+    }
+
+    public List<UserAddressDTO>findAllBy() {
+        return userDTORepository.findAllBy();
     }
 }

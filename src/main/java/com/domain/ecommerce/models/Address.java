@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,6 +20,19 @@ public class Address {
     private int postalCode;
     private String country;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return postalCode == address.postalCode && Objects.equals(addressId, address.addressId) && Objects.equals(houseNumber, address.houseNumber) && Objects.equals(street, address.street) && Objects.equals(city, address.city) && Objects.equals(state, address.state) && Objects.equals(country, address.country) && Objects.equals(user, address.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(addressId, houseNumber, street, city, state, postalCode, country, user);
+    }
 
     public Address(String houseNumber, String street, String city, String state, int postalCode, String country) {
         this.houseNumber = houseNumber;
