@@ -26,7 +26,7 @@ generates the jwt tokens
 public class JwtTokenUtil {
     private final JwtEncoder jwtEncoder;
     private final int accessTokenTime = 1;
-    private final int refreshTokenTime = 2;
+    private final int refreshTokenTime = 1;// change to 2
     private final int tempTokenTime = 10;
 
 
@@ -47,7 +47,7 @@ public class JwtTokenUtil {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(accessTokenTime,ChronoUnit.MINUTES))
+                .expiresAt(now.plus(accessTokenTime,ChronoUnit.MINUTES))//change to 10 min
                 .subject(authentication.getName())
                 .claim("scope",scope)
                 .build();
@@ -65,7 +65,7 @@ public class JwtTokenUtil {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(refreshTokenTime,ChronoUnit.HOURS))
+                .expiresAt(now.plus(refreshTokenTime,ChronoUnit.MINUTES))//change to hours
                 .subject(authentication.getName())
                 .claim("scope",scope)
                 .build();

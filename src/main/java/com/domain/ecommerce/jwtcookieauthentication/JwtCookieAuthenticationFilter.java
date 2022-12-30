@@ -53,28 +53,29 @@ public class JwtCookieAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         System.out.println("Checking access token");
-        if(checkRefreshToken(request,response,false)) {//executes only if authorization header in null: validates token and forwards request
-            System.out.println("access token is valid");
+        if(checkCookieToken(request,false)) {//executes only if authorization header in null: validates token and forwards request
             filterChain.doFilter(request,response);
             return;
         } else {
             System.out.println("access token invalid");
         }
+        System.out.println();
 
         System.out.println("Checking refresh token");
-        if(checkRefreshToken(request,response,true)) {//executes only if accesstoken is false.
-            System.out.println("refresh token is valid");
+        if(checkCookieToken(request,true)) {//executes only if accesstoken is false.
            filterChain.doFilter(request,response);
-           return;
+            System.out.println("refresh token invalid");
         } else {
-            System.out.println("refresh token is invalid");
+            filterChain.doFilter(request,response);
+
         }
 
-        filterChain.doFilter(request,response);
+
 
     }
 
-    private boolean checkAccessTokenCookie( HttpServletRequest request,boolean isRefreshToken) {
+
+    private boolean checkCookieToken( HttpServletRequest request,boolean isRefreshToken) {
 
         Cookie cookie;
          if(isRefreshToken) {
@@ -94,29 +95,37 @@ public class JwtCookieAuthenticationFilter extends OncePerRequestFilter {
 
 
         String token = cookie.getValue();
+
         try {
-            SignedJWT.parse(token).verify(jwsVerifier);;
-            Jwt jwt = jwtDecoder.decode(token);
+            boolean isValid =   SignedJWT.parse(token).verify(jwsVerifier);
+            if(!isValid) {
+                System.out.println("Token signature not valid");
+                return false;
+            } else {
+                System.out.println("Token signature valid");
 
-            String username = jwt.getSubject();
-            List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
-            grantedAuthorities.add(new SimpleGrantedAuthority(jwt.getClaims().get("scope").toString()));
+                Jwt jwt = jwtDecoder.decode(token);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username,null,grantedAuthorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                String username = jwt.getSubject();
+                List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
+                grantedAuthorities.add(new SimpleGrantedAuthority(jwt.getClaims().get("scope").toString()));
 
-            return true;
+                Authentication authentication = new UsernamePasswordAuthenticationToken(username,null,grantedAuthorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                return true;
+            }
+
+
 
 
         } catch (JOSEException | ParseException | JwtValidationException e) {
-
+            System.out.println(e.getMessage());
           return false;
         }
 
 
     }
 
-    private boolean checkRefreshToken(HttpServletRequest request, HttpServletResponse response,boolean isRefreshToken) {
-        return checkAccessTokenCookie(request,isRefreshToken);
-    }
+
 }
